@@ -9,7 +9,7 @@ const Productos = require('./api/productos')
 const app = express()
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
-const puerto = 8081
+const puerto = 8080
 
 const productosApi = new Productos()
 const mensajesApi = new ContenedorMensajes('archivo-mensajes.json')
