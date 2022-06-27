@@ -14,7 +14,7 @@
 </head>
 <body>
     <div  class="bg-light text-dark card container fluid" >
-      <form id="formAgregarProducto" class="row justify-content-md-center">
+      <form id="addProduct" class="row justify-content-md-center">
         <h2 class="pb-2 mb-4 text-danger border-bottom border-danger card-header">Ingrese un producto:</h2>
         <div class="mb-3">
             <label  class="form-label">Nombre:</label>
@@ -38,19 +38,19 @@
 
     
     <div  class="bg-light text-dark card container fluid" >
-      <form id="formPublicarMensaje" class="row justify-content-md-center">
+      <form id="postMessage" class="row justify-content-md-center">
       <h2 class="pb-2 mb-4 text-danger border-bottom border-danger card-header">Centro de mensajes</h2>
       <div id="messages"></div>
       <div class="mb-3">
         <label class="form-label">Ingresa tu email:</label>
-        <input type="text" class="form-control" id="inputUsername" placeholder="name@example.com" name="title">
+        <input type="text" class="form-control" id="username" placeholder="name@example.com" name="title">
       </div>
         <div class="mb-3">
           <label class="form-label">Ingresa tu mensaje:</label>
           <input type="text" class="form-control" id="inputMessage" placeholder="Escribe aquí tu mensaje...">
         </div>
         <div class="d-flex justify-content-center">
-          <input type="submit"  id="btnEnviar" class="btn btn-dark" value="Enviar">
+          <input disabled type="submit"  id="btnSend" class="btn btn-dark" value="Enviar">
         </div>
       </form>
     </div>

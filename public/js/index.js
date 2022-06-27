@@ -1,26 +1,28 @@
 const socket = io.connect();
 
-//------------------------------------------------------------------------------------
-
-const formAgregarProducto = document.getElementById('formAgregarProducto')
-formAgregarProducto.addEventListener('submit', e => {
-    e.preventDefault()
+//Añadir productos a la tabla
+const addProduct = document.getElementById('addProduct')
+addProduct.addEventListener('submit', event => {
+    event.preventDefault()
     const producto = {
-        title: formAgregarProducto[0].value,
-        price: formAgregarProducto[1].value,
-        thumbnail: formAgregarProducto[2].value
+        title: addProduct[0].value,
+        price: addProduct[1].value,
+        thumbnail: addProduct[2].value
     }
     socket.emit('update', producto);
-    formAgregarProducto.reset()
+    addProduct.reset()
 })
 
+
+// Mostrar tabla de productos
+
 socket.on('productos', productos => {
-    makeHtmlTable(productos).then(html => {
+    tableProducts(productos).then(html => {
         document.getElementById('productos').innerHTML = html
     })
 });
 
-function makeHtmlTable(productos) {
+function tableProducts(productos) {
     return fetch('plantillas/index.hbs')
         .then(respuesta => respuesta.text())
         .then(plantilla => {
@@ -30,28 +32,31 @@ function makeHtmlTable(productos) {
         })
 }
 
-//-------------------------------------------------------------------------------------
+/*-----------------------------------*/
 
-const inputUsername = document.getElementById('inputUsername')
+const username = document.getElementById('username')
 const inputMessage = document.getElementById('inputMessage')
-const btnEnviar = document.getElementById('btnEnviar')
+const btnSend = document.getElementById('btnSend')
 
-const formPublicarMensaje = document.getElementById('formPublicarMensaje')
-formPublicarMensaje.addEventListener('submit', e => {
-    e.preventDefault()
 
-    const message = { autor: inputUsername.value, texto: inputMessage.value }
+// Publicar un mensaje
+const postMessage = document.getElementById('postMessage')
+
+postMessage.addEventListener('submit', event => {
+    event.preventDefault()
+    const message = { autor: username.value, texto: inputMessage.value }
     socket.emit('newMessage', message);
-    formPublicarMensaje.reset()
+    postMessage.reset()
     inputMessage.focus()
+    btnSend.disabled = true
 })
 
 socket.on('messages', messages => {
-    const html = makeHtmlList(messages)
+    const html = messageList(messages)
     document.getElementById('messages').innerHTML = html;
 })
 
-function makeHtmlList(messages) {
+function messageList(messages) {
     return messages.map(message => {
         return (`
             <div>
@@ -63,14 +68,14 @@ function makeHtmlList(messages) {
     }).join(" ");
 }
 
-inputUsername.addEventListener('input', () => {
-    const hayEmail = inputUsername.value.length
-    const hayTexto = inputMessage.value.length
-    inputMessage.disabled = !hayEmail
-    btnEnviar.disabled = !hayEmail || !hayTexto
+username.addEventListener('input', () => {
+    const emailPresent = username.value.length
+    const messagePresent = inputMessage.value.length
+    btnSend.disabled = !emailPresent || !messagePresent
 })
 
 inputMessage.addEventListener('input', () => {
-    const hayTexto = inputMessage.value.length
-    btnEnviar.disabled = !hayTexto
+    const emailPresent = username.value.length
+    const messagePresent = inputMessage.value.length
+    btnSend.disabled = !emailPresent || !messagePresent
 })
