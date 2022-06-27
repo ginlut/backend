@@ -1,0 +1,34 @@
+<style>
+    .table td,
+    .table th {
+        vertical-align: middle;
+    }
+    .img {
+      width: 50px;
+    }
+</style>
+
+
+<div class="container">
+    <div class="row justify-content-md-center">
+        {{#if productos.length}}
+            <h1 class="pb-2 mb-4 text-danger border-bottom border-danger">Todos los productos</h1>
+            <div class="table-responsive">
+                <table class="table table-dark table-striped">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Imagen</th>
+                    </tr>
+                    {{#each productos}}
+                    <tr>
+                        <td>{{this.title}}</td>
+                        <td>${{this.price}}</td>
+                        <td><img src={{this.thumbnail}} alt="image" class="img"></td>
+                    </tr>
+                    {{/each}}
+                </table>
+            </div>
+        {{/if}}
+    </div>
+</div>
