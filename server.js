@@ -14,12 +14,15 @@ const puerto = 8080
 const productosApi = new Productos()
 const mensajesApi = new ContenedorMensajes('archivo-mensajes.json')
 
+const routes = require('./routes/routes')
+
 
 /*------------- SERVIDOR APP-----------------------*/
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
+app.use('/', routes) 
 
 /*------------- SOCKET.IO-----------------------*/
 
