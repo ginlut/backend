@@ -5,6 +5,7 @@ const Productos = require('../api/productos')
 const productosApi = new Productos('productos.json')
 const ApiCarrito = require('../api/carritos')
 const carritosApi = new ApiCarrito('carritos.json')
+const admin = true
 
 
 /*----------------------PRODUCTOS-------------------------- */
@@ -17,15 +18,25 @@ router.get('/api/productos/:id', async function (req, res) {
 })
 
 router.post('/api/productos', async function(req, res) {
-  res.json(await productosApi.save(req.body))
+  if (admin){
+    res.json(await productosApi.save(req.body))}
+  else{
+    res.json({ error : -1, descripcion: "ruta no autorizada" })}
 })
 
 router.put('/api/productos/:id', async function (req, res) {
-  res.json(await productosApi.updateProducts(req.body, req.params.id))
- 
+  if (admin){
+    res.json(await productosApi.updateProducts(req.body, req.params.id))}
+  else{
+    res.json({ error : -1, descripcion: "ruta no autorizada" })} 
 })
+
 router.delete('/api/productos/:id', async function (req, res) {
-  res.json(await productosApi.deleteById(req.params.id))     
+  if (admin){
+    res.json(await productosApi.deleteById(req.params.id))}
+  else{
+    res.json({ error : -1, descripcion: "ruta no autorizada" })
+  }
 })
 
 /*----------------------CARRITO-------------------------- */

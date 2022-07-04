@@ -26,7 +26,6 @@ class Productos {
         productList.push(producto)
         try {
             await fs.writeFile(this.nombre, JSON.stringify(productList, null, 2))
-            console.log(producto.id)
             return {id:producto.id}
         } catch (error) {
             throw new Error(`Error al guardar: ${error}`)
@@ -57,7 +56,7 @@ class Productos {
             products = products.filter(product => product.id !== Number(id))
             await fs.writeFile(this.nombre, JSON.stringify(products))
         } else {
-            return { error: 'carrito no encontrado' }
+            return { error: 'producto no encontrado' }
         } 
     }
 

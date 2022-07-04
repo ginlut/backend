@@ -35,7 +35,6 @@ class ApiCarrito {
         cartsList.push(carrito)
         try {
             await fs.writeFile(this.nombre, JSON.stringify(cartsList, null, 2))
-            console.log(carrito.id)
             return {id:carrito.id}
         } catch (error) {
             throw new Error(`Error al guardar: ${error}`)
