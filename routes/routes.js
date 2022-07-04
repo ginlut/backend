@@ -2,20 +2,55 @@ const { Router } = require('express')
 const router = Router()
 const express = require('express')
 const Productos = require('../api/productos')
-const productosApi = new Productos()
+const productosApi = new Productos('productos.json')
+const ApiCarrito = require('../api/carritos')
+const carritosApi = new ApiCarrito('carritos.json')
 
-router.get('/productos', (req, res) => {
-    const products = productosApi.getAll()
-    res.render("vista", {
-        productos: products,
-        existenceTable: products.length
-    });
+
+/*----------------------PRODUCTOS-------------------------- */
+router.get('/api/productos', async function (req, res) {
+  res.json(await productosApi.getAll())
 })
 
-router.post('/productos', (req, res) => {
-    const producto = req.body
-    productosApi.save(producto)
-    res.redirect('/')
+router.get('/api/productos/:id', async function (req, res) {
+  res.json(await productosApi.getById(req.params.id))
 })
+
+router.post('/api/productos', async function(req, res) {
+  res.json(await productosApi.save(req.body))
+})
+
+router.put('/api/productos/:id', async function (req, res) {
+  res.json(await productosApi.updateProducts(req.body, req.params.id))
+ 
+})
+router.delete('/api/productos/:id', async function (req, res) {
+  res.json(await productosApi.deleteById(req.params.id))     
+})
+
+/*----------------------CARRITO-------------------------- */
+
+router.post('/api/carrito', async function (req, res) {
+  res.json(await carritosApi.save(req.body))
+})
+
+router.delete('/api/carrito/:id', async function (req, res) {
+  res.json(await carritosApi.deleteById(req.params.id))     
+})
+
+router.get('/api/carrito/:id/productos', async function (req, res){
+  res.json(await carritosApi.getProductsByCartId(req.params.id))
+})
+
+router.post('/api/carrito/:id/productos', async function(req, res){
+  const product = await productosApi.getById(req.body.productId)
+  res.json(await carritosApi.addProductToCart(req.params.id, product))
+})
+
+router.delete('/api/carrito/:id/productos/:id_prod', async function(req, res) {
+  res.json(await carritosApi.removeProductFromCart(req.params.id, req.params.id_prod))     
+})
+
+
 
 module.exports = router
