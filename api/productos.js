@@ -1,43 +1,85 @@
+const knex = require('knex')
+
 class Productos {
-    constructor() {
+    constructor(config, nombreTabla) {
       this.productos = []
-    }
-    getAll () {
-        return this.productos
-    }
-
-    getById (id) {
-      const products = this.getAll()
-      const foundProduct = products.find(product => product.id === Number(id))
-      return foundProduct || { error: 'producto no encontrado' }
+      this.nombreTabla = nombreTabla
+      this.dbproductos = knex(config)
+      this.createTable();
     }
 
-    save(producto) {
-        let productList = this.getAll()
-        let id = productList.length > 0 ? productList[productList.length - 1].id : 0
-        producto.id = id + 1
-        productList.push(producto)
-        return producto
-    }
-
-    updateProductos(product, id) {
-        const modifiedProduct = { id: Number(id), ...product }
-        const index = this.productos.findIndex(product => product.id === Number(id))
-        if (index !== -1) {
-            this.productos[index] = modifiedProduct
-            return modifiedProduct
-        } else {
-            return { error: 'producto no encontrado' }
+    createTable = async () => {
+        try {
+          const exists = await this.dbproductos.schema.hasTable(this.nombreTabla)
+          if (!exists) {
+              await this.dbproductos.schema.createTable(this.nombreTabla, (table) => {
+              table.increments("id").primary();
+              table.string("title", 50).notNullable();
+              table.integer("price");
+              table.string("thumbnail");
+            });
+          console.log(`Tabla ${this.nombreTabla} creada`);
+        } else{
+          console.log(`La tabla ${this.nombreTabla} ya existe`)
+        }          
+      } catch (error) {
+          console.log(error);
+          this.dbproductos.destroy();
         }
-    }
-  deleteById(id) {
-    const index = this.productos.findIndex(product => product.id === Number(id))
-    if (index !== -1) {
-        return this.productos.splice(index, 1)
-    } else {
+      };
+      
+    getAll = async () => {
+      try {
+        const products = await this.dbproductos.from(this.nombreTabla).select('*');
+        return products
+      } catch (e) {
+        console.log(e);
+        this.dbproductos.destroy();    
+      }
+    };
+
+    getById = async (id) => {
+      try {
+        const product = await this.dbproductos.from(this.nombreTabla).select('*').where("id", "=", Number(id))    
+        return product
+      } catch (e) {
+        console.log(e);
+        this.dbproductos.destroy();
         return { error: 'producto no encontrado' }
+      }
+    };
+
+    save = async (producto) => {
+      try {
+    
+      const result = await this.dbproductos(this.nombreTabla).insert(producto)
+      console.log('Producto insertado en la tabla')
+      return result
+
+      } catch(err) {
+          console.log(err)
+          database.destroy()
+      }
+  }
+    updateProducts = async (product, id) => {
+      try {
+        await this.dbproductos.from(this.nombreTabla).where("id", "=", Number(id)).update(product)
+        console.log('Producto actualizado')
+      } catch (e) {
+        console.log(e);
+        database.destroy()
+      }
+    };
+
+  deleteById = async (id) => {
+    try {
+      await this.dbproductos.from(this.nombreTabla).where("id", "=", Number(id)).del()
+      console.log('CProducto eliminado')
+    } catch (e) {
+      console.log(e);
+      database.destroy()
     }
-}
+  };
 
 }
 

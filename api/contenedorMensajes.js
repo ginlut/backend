@@ -1,35 +1,64 @@
-const { promises: fs } = require('fs')
+const knex = require('knex')
 
 class ContenedorMensajes {
-    constructor(nombre) {
-        this.nombre = nombre
-    }
-    getAll = async () => {
-        try {
-            const allProducts = await fs.readFile(this.nombre, 'utf-8')
-            return JSON.parse(allProducts)   
+    constructor(config, nombreTabla) {
+        this.mensajes = []
+        this.nombreTabla = nombreTabla
+        this.dbmensajes = knex(config)
+        this.createTable();
+      }
+  
+      createTable = async () => {
+          try {
+            const exists = await this.dbmensajes.schema.hasTable(this.nombreTabla)
+            if (!exists) {
+                await this.dbmensajes.schema.createTable(this.nombreTabla, (table) => {
+                table.string("nombre", 50).notNullable();
+                table.string("correo", 50);
+                table.string("mensaje", 100);
+              });
+            console.log(`Tabla ${this.nombreTabla} creada`);
+          } else{
+            console.log(`La tabla ${this.nombreTabla} ya existe`)
+          }          
         } catch (error) {
-            return []
-        }
-    }
-    save = async(producto) => {
-        let productList = await this.getAll()
-        let id = productList.length > 0 ? productList[productList.length - 1].id : 0
-        producto.id = id + 1
-        productList.push(producto)
-
+            console.log(error);
+            this.dbmensajes.destroy();
+          }
+        };
+        
+      getAll = async () => {
         try {
-            await fs.writeFile(this.nombre, JSON.stringify(productList, null, 2))
-            return producto.id
-        } catch (error) {
-            throw new Error(`Error al guardar: ${error}`)
+          const messages = await this.dbmensajes.from(this.nombreTabla).select('*');
+          return messages
+        } catch (e) {
+          console.log(e);
+          this.dbmensajes.destroy();    
         }
-    }
-
-    getById = async(id) => {
-        const products = await this.getAll()
-        const foundProduct = products.find(product => product.id === Number(id))
-        return foundProduct || { error: 'producto no encontrado' }
+      };
+  
+      getById = async (id) => {
+        try {
+          const messages = await this.dbmensajes.from(this.nombreTabla).select('*').where("id", "=", Number(id))    
+          return messages
+        } catch (e) {
+          console.log(e);
+          this.dbmensajes.destroy();
+          return { error: 'mensaje no encontrado' }
+        }
+      };
+  
+      save = async (mensaje) => {
+        try {
+      
+        const result = await this.dbmensajes(this.nombreTabla).insert(mensaje)
+        console.log('Mensaje insertado en la tabla')
+        return result
+  
+        } catch(err) {
+            console.log(err)
+            database.destroy()
+        }
     }
 }
 module.exports =  ContenedorMensajes
