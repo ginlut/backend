@@ -1,20 +1,25 @@
+const config = require("../../databases/config");
+const mongoose = require("mongoose");
+
+mongoose.connect(config.mongodb.connectionString);
 
 class ContenederoMongoDb {
-    constructor(nombre) {
-      this.nombre = nombre 
+    constructor(modelo) {
+        this.collection = mongoose.model(modelo);
     }
     getAll = async () => {
         try {
-            const allProducts = await fs.readFile(this.nombre, 'utf-8')
-            return JSON.parse(allProducts)   
+            const allProducts = await this.collection.find()
+            return allProducts   
         } catch (error) {
             return []
         }
+
     }
     getById = async(id) => {
-        const products = await this.getAll()
-        const foundProduct = products.find(product => product.id === Number(id))
-        return foundProduct || { error: 'producto no encontrado' }
+        const doc = await this.coleccion.find({ _id: id }, { __V: 0 });
+        return doc || { error: 'producto no encontrado' }
+
     }
 
     save = async(producto) => {

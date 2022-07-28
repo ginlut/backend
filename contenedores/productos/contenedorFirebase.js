@@ -1,6 +1,5 @@
 const admin = require('../../databases/firebase')
 
-
 const db = admin.firestore();
 
 class ContenedorFirebase {

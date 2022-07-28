@@ -2,7 +2,7 @@ const ContenedorFirebaseCarritos = require("../../contenedores/carritos/contened
 
 class ProductosDaosFirebaseCart extends ContenedorFirebaseCarritos {
   constructor() {
-    super('carritos');
+    super();
   }
 }
 

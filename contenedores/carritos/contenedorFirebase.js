@@ -57,7 +57,6 @@ class ContenedorFirebaseCarritos {
 
     addProductToCart = async(cartId, product) =>{
         let cart = await this.getById(cartId)
-        //const carts = await this.getAll()
         if(product.id !== undefined) {
             try{
                 console.log(cart)
@@ -71,22 +70,16 @@ class ContenedorFirebaseCarritos {
     }
     removeProductFromCart = async(cartId, productId) =>{
         let cart = await this.getById(cartId)
-        if (cart.id !== undefined){
-            let index = cart.productos.findIndex(product => product.id === Number(productId))
-            if (index !== -1) {
-                try {
-                    cart.productos.splice(index, 1)
-                    let carts = await this.getAll()
-                    let indexCart = carts.findIndex(cart => cart.id === Number(cartId))
-                    carts[indexCart] = cart
-                    await fs.writeFile(this.nombre, JSON.stringify(carts))
+            try{
+            const productos = cart.productos
+            const index = productos.findIndex((prod)=> prod.id == productId)
+            if (index > -1) {
+                productos.splice(index, 1);
+            }
+            const addProduct = await this.collection.doc(cartId).update({productos: productos});
+            return addProduct
                 } catch (error) {
-                    throw new Error(`Error al modificar: ${error}`)}
-            } else{
-                return { error: 'producto no encontrado en el carrito' }
-            } 
-        }else{
-            return { error: 'carrito no encontrado' }
+                    throw new Error(`Error al modificar: ${error}`)
         }
 }
 

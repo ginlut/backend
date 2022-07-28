@@ -51,7 +51,7 @@ router.delete('/api/carrito/:id', async function (req, res) {
 })
 
 router.get('/api/carrito/:id/productos', async function (req, res){
-  res.json(await daos.CarritoDao.getProductsByCartId(req.params.id))
+  res.json(await carritosApi.getProductsByCartId(req.params.id))
 })
 
 router.post('/api/carrito/:id/productos', async function(req, res){
@@ -60,7 +60,7 @@ router.post('/api/carrito/:id/productos', async function(req, res){
 })
 
 router.delete('/api/carrito/:id/productos/:id_prod', async function(req, res) {
-  res.json(await daos.CarritoDao.removeProductFromCart(req.params.id, req.params.id_prod))     
+  res.json(await carritosApi.removeProductFromCart(req.params.id, req.params.id_prod))     
 })
 
 
