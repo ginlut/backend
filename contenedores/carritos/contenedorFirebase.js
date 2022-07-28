@@ -37,7 +37,7 @@ class ContenedorFirebaseCarritos {
     save = async(carrito) => {
         try {
             carrito.timestamp = Date.now()
-            carrito.productos = {}
+            carrito.productos = []
             return this.collection.doc().create(carrito)
         } catch (error) {
             throw new Error(`Error al guardar: ${error}`)
@@ -60,9 +60,10 @@ class ContenedorFirebaseCarritos {
         //const carts = await this.getAll()
         if(product.id !== undefined) {
             try{
+                console.log(cart)
             const productos = cart.productos
             productos.push(product)
-            const addProduct = await cart.update({productos: productos});
+            const addProduct = await this.collection.doc(cartId).update({productos: productos});
             return addProduct
                 } catch (error) {
                     throw new Error(`Error al modificar: ${error}`)
