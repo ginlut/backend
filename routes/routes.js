@@ -1,11 +1,12 @@
-const { Router } = require('express')
+const { Router, express } = require('express');
+const daos = require("../daos/index.js");
 const router = Router()
-const express = require('express')
-const Productos = require('../api/productos')
-const productosApi = new Productos('productos.json')
-const ApiCarrito = require('../api/carritos')
-const carritosApi = new ApiCarrito('carritos.json')
+const Productos =require('../contenedores/productos/contenedorFirebase');
+const productosApi = new Productos('productos')
 const admin = true
+const Carritos =require('../contenedores/carritos/contenedorFirebase');
+const carritosApi = new Carritos('carritos')
+
 
 
 /*----------------------PRODUCTOS-------------------------- */
@@ -50,7 +51,7 @@ router.delete('/api/carrito/:id', async function (req, res) {
 })
 
 router.get('/api/carrito/:id/productos', async function (req, res){
-  res.json(await carritosApi.getProductsByCartId(req.params.id))
+  res.json(await daos.CarritoDao.getProductsByCartId(req.params.id))
 })
 
 router.post('/api/carrito/:id/productos', async function(req, res){
@@ -59,9 +60,9 @@ router.post('/api/carrito/:id/productos', async function(req, res){
 })
 
 router.delete('/api/carrito/:id/productos/:id_prod', async function(req, res) {
-  res.json(await carritosApi.removeProductFromCart(req.params.id, req.params.id_prod))     
+  res.json(await daos.CarritoDao.removeProductFromCart(req.params.id, req.params.id_prod))     
 })
 
 
 
-module.exports = router
+module.exports = router;

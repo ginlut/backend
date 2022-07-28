@@ -1,6 +1,5 @@
-const { promises: fs } = require('fs')
 
-class Productos {
+class ContenederoMongoDb {
     constructor(nombre) {
       this.nombre = nombre 
     }
@@ -62,4 +61,4 @@ class Productos {
 
 }
 
-module.exports =  Productos
+module.exports =  ContenederoMongoDb

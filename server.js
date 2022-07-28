@@ -1,13 +1,8 @@
 const express = require('express')
-//const handlebars = require('express-handlebars')
 const { Server: HttpServer } = require('http')
-const { Server: IOServer } = require('socket.io')
-const Productos = require('./api/productos')
 const app = express()
 const httpServer = new HttpServer(app)
-const io = new IOServer(httpServer)
 const puerto = 8080
-const productosApi = new Productos()
 const routes = require('./routes/routes')
 
 
@@ -18,20 +13,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use('/', routes) 
 
-/*------------- SOCKET.IO-----------------------*/
-
-io.on('connection', async socket => {
-    console.log('Se ha conectado un nuevo usuario');
-
-    //Tabla de productos introducidos
-    socket.emit('productos', productosApi.getAll());
-
-    socket.on('update', producto => {
-        productosApi.save(producto)
-        io.sockets.emit('productos', productosApi.getAll());
-    })
-    
-})
 
  /*---------------SERVIDOR-------------------*/   
 

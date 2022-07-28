@@ -1,6 +1,6 @@
-const { promises: fs } = require('fs')
 
-class ApiCarrito {
+
+class ContenedorMongoDbCarrito {
     constructor(nombre) {
       this.nombre = nombre
     }
@@ -99,4 +99,4 @@ class ApiCarrito {
 
 }
 
-module.exports =  ApiCarrito
+module.exports =  ContenedorMongoDbCarrito
