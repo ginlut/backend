@@ -1,23 +1,23 @@
-
+const config = require("../../databases/config");
+const mongoose = require('mongoose')
 
 class ContenedorMongoDbCarrito {
-    constructor(nombre) {
-      this.nombre = nombre
+    constructor(modelo) {
+      this.collection = modelo
     }
 
     getAll = async () => {
         try {
-            const allCarts = await fs.readFile(this.nombre, 'utf-8')
-            return JSON.parse(allCarts)   
+            const allCarts = await this.collection.find()
+            return allCarts   
         } catch (error) {
             return []
         }
     }
 
     getById = async(id) => {
-        const carts = await this.getAll()
-        const foundCart = carts.find(cart => cart.id === Number(id))
-        return foundCart || { error: 'producto no encontrado' }
+        const carts = await this.collection.findById(id);
+        return carts || { error: 'carrito no encontrado' }
     }
 
     getProductsByCartId = async(cartId) =>{
@@ -27,15 +27,11 @@ class ContenedorMongoDbCarrito {
 
 
     save = async(carrito) => {
-        let cartsList = await this.getAll()
-        let id = cartsList.length > 0 ? cartsList[cartsList.length - 1].id : 0
-        carrito.id = id + 1
-        carrito.timestamp = Date.now()
-        carrito.productos = []
-        cartsList.push(carrito)
         try {
-            await fs.writeFile(this.nombre, JSON.stringify(cartsList, null, 2))
-            return {id:carrito.id}
+            carrito.timestamp = Date.now()
+            carrito.productos = []
+            let cart = new this.collection(carrito).save()
+            return cart
         } catch (error) {
             throw new Error(`Error al guardar: ${error}`)
         }
@@ -43,57 +39,42 @@ class ContenedorMongoDbCarrito {
 
 
     deleteById = async(id)  =>{
-        let carts = await this.getAll()
-        const index = carts.findIndex(cart => cart.id === Number(id))
-        if (index !== -1) {
-            carts = carts.filter(cart => cart.id !== Number(id))
-            await fs.writeFile(this.nombre, JSON.stringify(carts))
-        } else {
-            return { error: 'carrito no encontrado' }
-        } 
-    }
+        try {
+            const document = this.collection.findById(id);
+            const deleteCart = await document.deleteOne();
+            return deleteCart
+        } catch (error) {
+            throw new Error(`Error al modificar: ${error}`)
+        }
+    } 
+    
 
     addProductToCart = async(cartId, product) =>{
         let cart = await this.getById(cartId)
-        const carts = await this.getAll()
         if(product.id !== undefined) {
-            cart.productos.push(product)
-            const index = carts.findIndex(cart => cart.id === Number(cartId))
-                if (index !== -1) {
-                carts[index] = cart
-                try {
-                    await fs.writeFile(this.nombre, JSON.stringify(carts, null, 2))
-                    return cart
+            try{
+            console.log(cart)
+            const productos = cart.productos
+            productos.push(product)
+            const addProduct = await this.collection.findById(cartId).updateOne({productos: productos});
+            return addProduct
                 } catch (error) {
                     throw new Error(`Error al modificar: ${error}`)
-                    }
-                } else{
-                    return { error: 'carrito no encontrado' }
-                } 
-        }
-        else {
-            return { error: 'producto no encontrado' }
-        }
+        }}
 
     }
     removeProductFromCart = async(cartId, productId) =>{
         let cart = await this.getById(cartId)
-        if (cart.id !== undefined){
-            let index = cart.productos.findIndex(product => product.id === Number(productId))
-            if (index !== -1) {
-                try {
-                    cart.productos.splice(index, 1)
-                    let carts = await this.getAll()
-                    let indexCart = carts.findIndex(cart => cart.id === Number(cartId))
-                    carts[indexCart] = cart
-                    await fs.writeFile(this.nombre, JSON.stringify(carts))
+            try{
+            const productos = cart.productos
+            const index = productos.findIndex((prod)=> prod._id == productId)
+            if (index > -1) {
+                productos.splice(index, 1);
+            }
+            const addProduct = await this.collection.findById(cartId).updateOne({productos: productos});
+            return addProduct
                 } catch (error) {
-                    throw new Error(`Error al modificar: ${error}`)}
-            } else{
-                return { error: 'producto no encontrado en el carrito' }
-            } 
-        }else{
-            return { error: 'carrito no encontrado' }
+                    throw new Error(`Error al modificar: ${error}`)
         }
 }
 

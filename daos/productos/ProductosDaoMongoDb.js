@@ -1,6 +1,6 @@
-const ContenedorMongo = require("../../contenedores/contenedorMongo");
+const ContenedorMongoDb = require("../../contenedores/productos/contenedorMongoDb");
 
-class ProductoDaoMongo extends ContenedorMongo {
+class ProductoDaoMongo extends ContenedorMongoDb {
   constructor() {
     super("productos", {
       nombre: { type: String, required: true },

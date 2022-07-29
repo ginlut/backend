@@ -1,34 +1,30 @@
 const dotenv =require("dotenv") ;
 dotenv.config();
 
-let ProductoDao;
-let CarritoDao;
+let productosApi;
+let carritosApi;
+let Productos;
+let Carritos;
 
 switch (process.env.DATABASE) {
   case "firebase":
-    const { ProductoDaoFirebase } = require(
-      "./productos/ProductosDaoFirebase"
-    );
-    const { CarritoDaoFirebase } = require(
-      "./carritos/CarritosDaoFirebase"
-    );
-
-    ProductoDao = ProductoDaoFirebase;
-    CarritoDao = CarritoDaoFirebase;
+    Productos = require('../contenedores/productos/contenedorFirebase');
+    productosApi = new Productos('productos')
+    Carritos = require('../contenedores/carritos/contenedorFirebase');
+    carritosApi = new Carritos('carritos')
 
     break;
-  case "mongo":
-    const {ProductoDaoMongo } = require(
-      "./productos/ProductosDaoMongoDb"
-    );
-    const {CarritoDaoMongo } = require(
-      "./carritos/CarritosDaoMongoDb"
-    );
 
-    ProductoDao = ProductoDaoMongo;
-    CarritoDao = CarritoDaoMongo;
+  case "mongo":
+    Productos = require('../contenedores/productos/contenedorMongoDb');
+    const connectMongoDb = require("../databases/mongoDb");
+    const productModel = require('../models/producto')
+    productosApi = new Productos(productModel)
+    Carritos = require('../contenedores/carritos/contenedorMongoDb')
+    const cartModel = require('../models/carrito')
+    carritosApi = new Carritos(cartModel)
 
     break;
 }
 
-module.exports =  { ProductoDao, CarritoDao };
+module.exports =  { productosApi, carritosApi };

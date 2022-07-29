@@ -1,13 +1,8 @@
 const { Router, express } = require('express');
-const daos = require("../daos/index.js");
+const {productosApi, carritosApi} = require("../daos/index.js");
 const router = Router()
-const Productos =require('../contenedores/productos/contenedorFirebase');
-const productosApi = new Productos('productos')
+
 const admin = true
-const Carritos =require('../contenedores/carritos/contenedorFirebase');
-const carritosApi = new Carritos('carritos')
-
-
 
 /*----------------------PRODUCTOS-------------------------- */
 router.get('/api/productos', async function (req, res) {
