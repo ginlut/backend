@@ -45,39 +45,37 @@ class ContenedorMensajes {
 
     normalize = async() =>{
 
-         const dataMensajes = {grupo: await this.getAll()}
-
-         //console.log(dataMensajes)
+         const dataMensajes = {dataMensajes: await this.getAll()}
          
-         const autor = new schema.Entity("autores", {}, {idAttribute: "mail"});
+         const autor = new schema.Entity("autor", {}, {idAttribute: "mail"});
 
-         const mensaje = new schema.Entity("mensaje", {
-            autor: autor
-         });
+         const mensaje = new schema.Entity("mensaje", 
+            {autor: autor},
+            { idAttribute: "id" }
+         );
 
-        const mensajes = new schema.Entity("mensajes", {
-            autor: [autor],
-            grupo: [mensaje]
-        });
+        const schemaMensajes = new schema.Entity("mensajes", {
+            mensajes: [mensaje]},
+            { idAttribute: "id" }
+        );
+
         function print(objeto) {
             console.log(util.inspect(objeto, false, 12, true));
         }
-        //console.log(dataMensajes)
-         //console.log(mensaje)
-        const normalizedData = normalize(dataMensajes, mensajes);
+        const normalizedData = normalize(  { id: "mensajes", mensajes: dataMensajes }, schemaMensajes);
 
-        //print(normalizedData)
-         //console.log(normalizedData);
+        print(normalizedData)
+        console.log(normalizedData);
           
-        //   const logitudNormalized = JSON.stringify(normalizedData).length;
-        //   const longitudOriginal = JSON.stringify(grupo).length;
+        const logitudNormalized = JSON.stringify(normalizedData).length;
+        const longitudOriginal = JSON.stringify(dataMensajes).length;
           
-        //   console.log("Longitud original: ", longitudOriginal);
-        //   console.log("Longitud normalizado: ", logitudNormalized);
+        console.log("Longitud original: ", longitudOriginal);
+        console.log("Longitud normalizado: ", logitudNormalized);
           
-        //   const porcentaje = (logitudNormalized * 100) / longitudOriginal;
+        const porcentaje = (logitudNormalized * 100) / longitudOriginal;
           
-        //   console.log(`Porcentaje de optimizacion ${(100 - porcentaje).toFixed(2)}%`);
+        console.log(`Porcentaje de optimizacion ${(100 - porcentaje).toFixed(2)}%`);
     }
 
   }
