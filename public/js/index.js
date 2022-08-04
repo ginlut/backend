@@ -44,8 +44,10 @@ const postMessage = document.getElementById('postMessage')
 
 postMessage.addEventListener('submit', event => {
     event.preventDefault()
-    const message = { autor: username.value, texto: inputMessage.value }
+    console.log("----------------------------")
+    const message = { autor: {mail: mail.value, lastname: lastname.value, age: age.value, username: username.value, avatar: avatar.value}, texto: inputMessage.value }
     socket.emit('newMessage', message);
+
     postMessage.reset()
     inputMessage.focus()
     btnSend.disabled = true
@@ -60,9 +62,10 @@ function messageList(messages) {
     return messages.map(message => {
         return (`
             <div>
-                <b style="color:blue;">${message.autor}</b>
+                <b style="color:blue;">${message.autor.mail}</b>
                 [<span style="color:brown;">${message.time}</span>] :
                 <i style="color:green;">${message.texto}</i>
+                <img src= ${message.autor.avatar}alt="image" class="img">
             </div>
         `)
     }).join(" ");

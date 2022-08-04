@@ -9,10 +9,15 @@ const app = express()
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 const puerto = 8080
-const {configMariaDB, configSQLite3} = require('./db')
+const {configMariaDB} = require('./db')
 
 const productosApi = new Productos(configMariaDB, 'productos')
-const mensajesApi = new ContenedorMensajes(configSQLite3, 'mensajes')
+const mensajesApi = new ContenedorMensajes('mensajes')
+
+const normalize = mensajesApi.normalize()
+
+//console.log(normalize)
+
 
 
 /*------------- SERVIDOR APP-----------------------*/
@@ -20,6 +25,15 @@ const mensajesApi = new ContenedorMensajes(configSQLite3, 'mensajes')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
+
+
+app.post('/api/productos-test', async function(req, res) {
+    res.json(await productosApi.saveFaker(req.body))
+})
+
+app.get('/api/productos-test', async function (req, res) {
+    res.json(await productosApi.getAll())
+  })
 
 app.get('/api/productos', async function (req, res) {
     res.json(await productosApi.getAll())
@@ -41,6 +55,10 @@ app.post('/api/productos', async function(req, res) {
 
   app.delete('/api/productos/:id', async function (req, res) {
    res.json(await productosApi.deleteById(req.params.id))
+  })
+
+  app.get('/api/mensajes-test', async function (req, res) {
+    res.json(await mensajesApi.getAll())
   })
 /*------------- SOCKET.IO-----------------------*/
 

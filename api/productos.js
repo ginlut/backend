@@ -1,5 +1,8 @@
 const knex = require('knex')
 
+const { faker } =require('@faker-js/faker');
+
+
 class Productos {
     constructor(config, nombreTabla) {
       this.productos = []
@@ -16,7 +19,10 @@ class Productos {
               table.increments("id").primary();
               table.string("title", 50).notNullable();
               table.integer("price");
-              table.string("thumbnail");
+              table.string("thumbnail");     
+              table.string("description");   
+              table.string("code");     
+              table.integer("stock");    
             });
           console.log(`Tabla ${this.nombreTabla} creada`);
         } else{
@@ -58,9 +64,32 @@ class Productos {
 
       } catch(err) {
           console.log(err)
-          database.destroy()
       }
   }
+
+  saveFaker = async (producto) => {
+    try {
+      for  (let i = 0; i<6; i++){
+      const product = {
+        title: faker.commerce.productName(),
+        price: faker.commerce.price(),
+        thumbnail: faker.image.imageUrl(),
+        description: faker.commerce.productDescription(),
+        code: faker.random.alphaNumeric(5),
+        stock: faker.random.numeric()
+      }
+    const result = await this.dbproductos(this.nombreTabla).insert(product)
+    console.log('Producto insertado en la tabla')
+    return result
+  }
+  
+    } catch(err) {
+        console.log(err)
+        this.dbproductos.destroy()
+    }
+}
+
+  
     updateProducts = async (product, id) => {
       try {
         await this.dbproductos.from(this.nombreTabla).where("id", "=", Number(id)).update(product)
@@ -74,7 +103,7 @@ class Productos {
   deleteById = async (id) => {
     try {
       await this.dbproductos.from(this.nombreTabla).where("id", "=", Number(id)).del()
-      console.log('CProducto eliminado')
+      console.log('Producto eliminado')
     } catch (e) {
       console.log(e);
       database.destroy()

@@ -1,64 +1,85 @@
-const knex = require('knex')
+const admin = require('../database/firebase')
+
+const db = admin.firestore();
+
+const { normalize, schema, denormalize } =require("normalizr")
+;
+const util = require("util");
+const { time } = require('console');
 
 class ContenedorMensajes {
-    constructor(config, nombreTabla) {
-        this.mensajes = []
-        this.nombreTabla = nombreTabla
-        this.dbmensajes = knex(config)
-        this.createTable();
-      }
-  
-      createTable = async () => {
-          try {
-            const exists = await this.dbmensajes.schema.hasTable(this.nombreTabla)
-            if (!exists) {
-                await this.dbmensajes.schema.createTable(this.nombreTabla, (table) => {
-                table.string("nombre", 50).notNullable();
-                table.string("correo", 50);
-                table.string("mensaje", 100);
-              });
-            console.log(`Tabla ${this.nombreTabla} creada`);
-          } else{
-            console.log(`La tabla ${this.nombreTabla} ya existe`)
-          }          
+    constructor(nombre) {
+      this.collection = db.collection(nombre) 
+    }
+    getAll = async () => {
+        try {
+            const query = await this.collection.get();
+            const response = await query.docs.map((doc) => ({
+                id:doc.id,
+                autor:doc.data().autor,
+                texto:doc.data().texto,
+                time:doc.data().time,
+            }));
+            return response;
         } catch (error) {
-            console.log(error);
-            this.dbmensajes.destroy();
-          }
-        };
-        
-      getAll = async () => {
-        try {
-          const messages = await this.dbmensajes.from(this.nombreTabla).select('*');
-          return messages
-        } catch (e) {
-          console.log(e);
-          this.dbmensajes.destroy();    
-        }
-      };
-  
-      getById = async (id) => {
-        try {
-          const messages = await this.dbmensajes.from(this.nombreTabla).select('*').where("id", "=", Number(id))    
-          return messages
-        } catch (e) {
-          console.log(e);
-          this.dbmensajes.destroy();
-          return { error: 'mensaje no encontrado' }
-        }
-      };
-  
-      save = async (mensaje) => {
-        try {
-      
-        const result = await this.dbmensajes(this.nombreTabla).insert(mensaje)
-        console.log('Mensaje insertado en la tabla')
-        return result
-  
-        } catch(err) {
-            console.log(err)
-            database.destroy()
+            console.log(error)
+            return []
         }
     }
-}
+    getById = async(id) => {
+        const doc = await this.collection.doc(id).get();
+        const data = doc.data();    
+        return { ...data, id } || { error: 'mensaje no encontrado' };
+    }
+
+    save = async(mensaje) => {
+
+        try {
+          mensaje.timestamp = Date.now()
+            console.log(this.collection.doc())
+            return this.collection.doc().create(mensaje)
+        } catch (error) {
+            throw new Error(`Error al guardar: ${error}`)
+        }
+    }
+
+    normalize = async() =>{
+
+         const dataMensajes = {grupo: await this.getAll()}
+
+         //console.log(dataMensajes)
+         
+         const autor = new schema.Entity("autores", {}, {idAttribute: "mail"});
+
+         const mensaje = new schema.Entity("mensaje", {
+            autor: autor
+         });
+
+        const mensajes = new schema.Entity("mensajes", {
+            autor: [autor],
+            grupo: [mensaje]
+        });
+        function print(objeto) {
+            console.log(util.inspect(objeto, false, 12, true));
+        }
+        //console.log(dataMensajes)
+         //console.log(mensaje)
+        const normalizedData = normalize(dataMensajes, mensajes);
+
+        //print(normalizedData)
+         //console.log(normalizedData);
+          
+        //   const logitudNormalized = JSON.stringify(normalizedData).length;
+        //   const longitudOriginal = JSON.stringify(grupo).length;
+          
+        //   console.log("Longitud original: ", longitudOriginal);
+        //   console.log("Longitud normalizado: ", logitudNormalized);
+          
+        //   const porcentaje = (logitudNormalized * 100) / longitudOriginal;
+          
+        //   console.log(`Porcentaje de optimizacion ${(100 - porcentaje).toFixed(2)}%`);
+    }
+
+  }
+
 module.exports =  ContenedorMensajes
