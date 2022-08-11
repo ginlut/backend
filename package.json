@@ -21,16 +21,10 @@
     "mysql": "^2.18.1",
     "normalizr": "^3.6.2",
     "socket.io": "^4.5.1",
-    "sqlite3": "^5.0.8"
+    "sqlite3": "^5.0.8",
+    "connect-mongo": "^4.6.0",
+    "express-session": "^1.17.3"
   },
   "keywords": [],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ginlut/milkycream-react.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ginlut/milkycream-react/issues"
-  },
-  "homepage": "https://github.com/ginlut/milkycream-react#readme",
   "description": ""
 }

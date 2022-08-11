@@ -12,13 +12,19 @@ const app = express()
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 const puerto = 8080
-const {configMariaDB} = require('./db')
+const {configMariaDB} = require('./database/config')
 
 const productosApi = new Productos(configMariaDB, 'productos')
 const mensajesApi = new ContenedorMensajes('mensajes')
 
 const { faker } =require('@faker-js/faker');
 const normalize = mensajesApi.normalize()
+
+const MongoStore = require("connect-mongo");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const path = require("path");
+const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 
 //console.log(normalize)
 
@@ -40,10 +46,69 @@ app.engine(
 app.set("view engine", "hbs");
 app.set("views", "./public");
 
+app.use(cookieParser());
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://salva:salva123@cluster0.5gbctuc.mongodb.net/?retryWrites=true&w=majority",
+      mongoOptions,
+    }),
+    secret: "coderhouse",
+    resave: false,
+    saveUninitialized: false,
+    rolling: true, // Reinicia el tiempo de expiracion con cada request
+    cookie: {
+      maxAge: 30000,
+    },
+  })
+);
 
-app.post('/api/productos-test', async function(req, res) {
-    res.json(await productosApi.saveFaker(req.body))
+function authMiddleware(req, res, next) {
+  if (req.session.username) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+}
+
+function loginMiddleware(req, res, next) {
+  if (req.session.username) {
+    res.redirect("/");
+  } else {
+    next();
+  }
+}
+
+app.get("/", authMiddleware, (req, res) => {
+  console.log("Hola");
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
+
+app.get("/login", loginMiddleware, (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/login.html"));
+});
+
+app.get("/api/login", async (req, res) => {
+  try {
+    console.log(req.query.username);
+    req.session.username = req.query.username;
+
+    res.redirect("/");
+  } catch (err) {
+    res.json({ error: true, message: err });
+  }
+});
+
+
+
+//-------------------------------------------------------------
+
+
+app.use('/api/productos-test', async function(req, res) {
+  res.json(await productosApi.saveFaker(req.body))
 })
+
 
 app.get('/api/productos-test', async function (req, res) {
 
@@ -60,7 +125,6 @@ app.get('/api/productos-test', async function (req, res) {
       }
       const template = handlebars.compile("index.hbs");
       const html = template({ productos })
-      console.log(html)
      res.status(200).render(html);
     
   })

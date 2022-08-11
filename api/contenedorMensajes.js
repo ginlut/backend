@@ -65,17 +65,14 @@ class ContenedorMensajes {
         const normalizedData = normalize(  { id: "mensajes", mensajes: dataMensajes }, schemaMensajes);
 
         print(normalizedData)
-        console.log(normalizedData);
+       // console.log(normalizedData);
           
         const logitudNormalized = JSON.stringify(normalizedData).length;
         const longitudOriginal = JSON.stringify(dataMensajes).length;
           
-        console.log("Longitud original: ", longitudOriginal);
-        console.log("Longitud normalizado: ", logitudNormalized);
-          
         const porcentaje = (logitudNormalized * 100) / longitudOriginal;
           
-        console.log(`Porcentaje de optimizacion ${(100 - porcentaje).toFixed(2)}%`);
+       // console.log(`Porcentaje de optimizacion ${(100 - porcentaje).toFixed(2)}%`);
     }
 
   }
