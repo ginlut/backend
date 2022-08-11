@@ -17,8 +17,7 @@ const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const path = require("path");
-const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true };
-const {authMiddleware, loginMiddleware} = require("./auth")
+const {auth, login} = require("./auth")
 
 //console.log(normalize)
 
@@ -46,36 +45,34 @@ app.use(
     store: MongoStore.create({
       mongoUrl:
         "mongodb+srv://GinaLutfallah:Gina123@cluster0.9yyhw.mongodb.net/?retryWrites=true&w=majority",
-      mongoOptions,
     }),
-    secret: 'keyboard cat',
+    secret: 'backend',
     resave: false,
     saveUninitialized: false,
     rolling: true, 
     cookie: {
-      maxAge: 30000,
+      maxAge: 5000,
     },
   })
 );
 
 
-app.get("/", authMiddleware, (req, res) => {
+app.get("/", auth, (req, res) => {
+  console.log("prueba")
   res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
-app.get("/login", loginMiddleware, (req, res) => {
+app.get("/login", login, (req, res) => {
   const nombre = req.session?.nombre
   if (nombre) {
       res.redirect('/')
   } else {
-      res.sendFile(path.join(__dirname, '/public/login.html'))
+      res.sendFile(path.join(__dirname, './public/login.html'))
 }});
 
 app.get("/api/login", async (req, res) => {
   try {
-    console.log(req.query.username);
     req.session.username = req.query.username;
-
     res.redirect("/");
   } catch (err) {
     res.json({ error: true, message: err });

@@ -1,5 +1,5 @@
 
-function authMiddleware(req, res, next) {
+function auth(req, res, next) {
   if (req.session.username) {
     next();
   } else {
@@ -7,7 +7,7 @@ function authMiddleware(req, res, next) {
   }
 }
 
-function loginMiddleware(req, res, next) {
+function login(req, res, next) {
   if (req.session.username) {
     res.redirect("/");
   } else {
@@ -15,4 +15,4 @@ function loginMiddleware(req, res, next) {
   }
 }
 
-module.exports = {loginMiddleware, authMiddleware};
+module.exports = {login, auth};
