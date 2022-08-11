@@ -64,7 +64,7 @@ class ContenedorMensajes {
         }
         const normalizedData = normalize(  { id: "mensajes", mensajes: dataMensajes }, schemaMensajes);
 
-        print(normalizedData)
+       // print(normalizedData)
        // console.log(normalizedData);
           
         const logitudNormalized = JSON.stringify(normalizedData).length;

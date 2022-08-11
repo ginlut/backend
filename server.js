@@ -1,30 +1,24 @@
 const express = require('express')
 const { Server: HttpServer } = require('http')
 const { Server: IOServer } = require('socket.io')
-
 const handlebars = require('express-handlebars')
-
-
 const ContenedorMensajes = require('./api/contenedorMensajes')
 const Productos = require('./api/productos')
-
 const app = express()
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 const puerto = 8080
 const {configMariaDB} = require('./database/config')
-
 const productosApi = new Productos(configMariaDB, 'productos')
 const mensajesApi = new ContenedorMensajes('mensajes')
-
 const { faker } =require('@faker-js/faker');
 const normalize = mensajesApi.normalize()
-
 const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const path = require("path");
 const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true };
+const {authMiddleware, loginMiddleware} = require("./auth")
 
 //console.log(normalize)
 
@@ -51,13 +45,13 @@ app.use(
   session({
     store: MongoStore.create({
       mongoUrl:
-        "mongodb+srv://salva:salva123@cluster0.5gbctuc.mongodb.net/?retryWrites=true&w=majority",
+        "mongodb+srv://GinaLutfallah:Gina123@cluster0.9yyhw.mongodb.net/?retryWrites=true&w=majority",
       mongoOptions,
     }),
-    secret: "coderhouse",
+    secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
-    rolling: true, // Reinicia el tiempo de expiracion con cada request
+    rolling: true, 
     cookie: {
       maxAge: 30000,
     },
@@ -65,31 +59,17 @@ app.use(
 );
 
 
-
-function authMiddleware(req, res, next) {
-  if (req.session.username) {
-    next();
-  } else {
-    res.redirect("/login");
-  }
-}
-
-function loginMiddleware(req, res, next) {
-  if (req.session.username) {
-    res.redirect("/");
-  } else {
-    next();
-  }
-}
-
 app.get("/", authMiddleware, (req, res) => {
-  console.log("Hola");
   res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
 app.get("/login", loginMiddleware, (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/login.html"));
-});
+  const nombre = req.session?.nombre
+  if (nombre) {
+      res.redirect('/')
+  } else {
+      res.sendFile(path.join(__dirname, '/public/login.html'))
+}});
 
 app.get("/api/login", async (req, res) => {
   try {
@@ -101,6 +81,13 @@ app.get("/api/login", async (req, res) => {
     res.json({ error: true, message: err });
   }
 });
+
+
+
+app.post('/login', (req, res) => {
+  req.session.nombre = req.body.nombre
+  res.redirect('/')
+})
 
 
 
