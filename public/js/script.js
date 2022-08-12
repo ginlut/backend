@@ -1,11 +1,12 @@
 const loginForm = document.querySelector("#loginForm");
-const usernameInput = document.querySelector("#username");
+const nameInput = document.querySelector("#name");
+
 
 async function submitHandler(e) {
   e.preventDefault();
-  console.log(usernameInput.value);
+  console.log(nameInput.value);
   try {
-    await fetch(`/api/login?username=${usernameInput.value}`);
+    await fetch(`/api/login?name=${nameInput.value}`);
 
     window.location.href = "/";
   } catch (err) {

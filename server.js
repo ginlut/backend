@@ -17,7 +17,7 @@ const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const path = require("path");
-const {auth, login} = require("./auth")
+const { login, auth } = require("./auth")
 
 //console.log(normalize)
 
@@ -27,7 +27,7 @@ const {auth, login} = require("./auth")
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static(__dirname+"/public"));
+app.use(express.static(`${__dirname}/public`));
 
 app.engine(
   "hbs",
@@ -51,28 +51,26 @@ app.use(
     saveUninitialized: false,
     rolling: true, 
     cookie: {
-      maxAge: 5000,
+      maxAge: 500000,
     },
   })
 );
 
 
+
+
+
 app.get("/", auth, (req, res) => {
-  console.log("prueba")
-  res.sendFile(path.join(__dirname, "/public/index.html"));
-});
+    res.sendFile(path.join(__dirname, "/public/home.html"));
+  }
+);
 
 app.get("/login", login, (req, res) => {
-  const nombre = req.session?.nombre
-  if (nombre) {
-      res.redirect('/')
-  } else {
-      res.sendFile(path.join(__dirname, './public/login.html'))
-}});
+  res.sendFile(path.join(__dirname, "./public/login.html"))});
 
 app.get("/api/login", async (req, res) => {
   try {
-    req.session.username = req.query.username;
+    req.session.name = req.query.name;
     res.redirect("/");
   } catch (err) {
     res.json({ error: true, message: err });
@@ -82,8 +80,22 @@ app.get("/api/login", async (req, res) => {
 
 
 app.post('/login', (req, res) => {
-  req.session.nombre = req.body.nombre
+  req.session.name = req.body.name
   res.redirect('/')
+})
+
+app.get('/logout', (req, res) => {
+  if (req.session.name) {
+      req.session.destroy(err => {
+          if (!err) {
+              res.sendFile(path.join(__dirname, "./public/logout.html"))
+          } else {
+              res.redirect('/')
+          }
+      })
+  } else {
+      res.redirect('/')
+  }
 })
 
 
@@ -91,7 +103,7 @@ app.post('/login', (req, res) => {
 //-------------------------------------------------------------
 
 
-app.use('/api/productos-test', async function(req, res) {
+app.post('/api/productos-test', async function(req, res) {
   res.json(await productosApi.saveFaker(req.body))
 })
 
@@ -143,7 +155,7 @@ app.post('/api/productos', async function(req, res) {
 /*------------- SOCKET.IO-----------------------*/
 
 io.on('connection', async socket => {
-    console.log('Se ha conectado un nuevo usuario');
+   // console.log('Se ha  un nuevo usuario');
 
     //Tabla de productos introducidos
     socket.emit('productos', productosApi.getAll());
@@ -161,12 +173,13 @@ io.on('connection', async socket => {
         await mensajesApi.save(message)
         io.sockets.emit('messages', await mensajesApi.getAll());
     })
+    
 })
 
  /*---------------SERVIDOR-------------------*/   
 
  const connectedServer = httpServer.listen(puerto, () => {
-    console.log(`Servidor http escuchando en el puerto ${connectedServer.address().port}`)
+    //console.log(`Servidor http escuchando en el puerto ${connectedServer.address().port}`)
 })
 connectedServer.on('error', error => console.log(`Error en servidor ${error}`))
 

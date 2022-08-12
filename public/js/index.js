@@ -1,5 +1,6 @@
 const socket = io.connect();
 
+
 //Añadir productos a la tabla
 const addProduct = document.getElementById('addProduct')
 addProduct.addEventListener('submit', event => {
@@ -82,3 +83,14 @@ inputMessage.addEventListener('input', () => {
     const messagePresent = inputMessage.value.length
     btnSend.disabled = !emailPresent || !messagePresent
 })
+
+/*-----------------------------------*/
+
+const logout = document.querySelector("#desloguear")
+
+logout.addEventListener('click', ()=>{
+    location.href = '/logout'
+});
+
+
+

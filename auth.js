@@ -1,6 +1,5 @@
-
 function auth(req, res, next) {
-  if (req.session.username) {
+  if (req.session.name) {
     next();
   } else {
     res.redirect("/login");
@@ -8,7 +7,7 @@ function auth(req, res, next) {
 }
 
 function login(req, res, next) {
-  if (req.session.username) {
+  if (req.session.name) {
     res.redirect("/");
   } else {
     next();
