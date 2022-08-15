@@ -4,7 +4,6 @@ const nameInput = document.querySelector("#name");
 
 async function submitHandler(e) {
   e.preventDefault();
-  console.log(nameInput.value);
   try {
     await fetch(`/api/login?name=${nameInput.value}`);
 

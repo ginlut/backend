@@ -2,24 +2,19 @@ const express = require('express')
 const { Server: HttpServer } = require('http')
 const { Server: IOServer } = require('socket.io')
 const handlebars = require('express-handlebars')
-const ContenedorMensajes = require('./api/contenedorMensajes')
-const Productos = require('./api/productos')
 const app = express()
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 const puerto = 8080
-const {configMariaDB} = require('./database/config')
-const productosApi = new Productos(configMariaDB, 'productos')
+const {productosApi} = require("./databases/daos/ProductosDaoMongoDb");
+const ContenedorMensajes = require('./api/contenedorMensajes')
 const mensajesApi = new ContenedorMensajes('mensajes')
-const { faker } =require('@faker-js/faker');
-const normalize = mensajesApi.normalize()
 const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const path = require("path");
 const { login, auth } = require("./auth")
-
-//console.log(normalize)
+const routes = require('./routes/routes')
 
 
 
@@ -40,6 +35,7 @@ app.set("view engine", "hbs");
 app.set("views", "./public");
 
 app.use(cookieParser());
+app.use('/', routes) 
 app.use(
   session({
     store: MongoStore.create({
@@ -57,9 +53,6 @@ app.use(
 );
 
 
-
-
-
 app.get("/", auth, (req, res) => {
     res.sendFile(path.join(__dirname, "/public/home.html"));
   }
@@ -67,6 +60,7 @@ app.get("/", auth, (req, res) => {
 
 app.get("/login", login, (req, res) => {
   res.sendFile(path.join(__dirname, "./public/login.html"))});
+  
 
 app.get("/api/login", async (req, res) => {
   try {
@@ -98,67 +92,14 @@ app.get('/logout', (req, res) => {
   }
 })
 
-
-
-//-------------------------------------------------------------
-
-
-app.post('/api/productos-test', async function(req, res) {
-  res.json(await productosApi.saveFaker(req.body))
-})
-
-
-app.get('/api/productos-test', async function (req, res) {
-
-    const productos = [];
-      for  (let i = 0; i<6; i++){
-        const producto = {};
-          producto.title= faker.commerce.productName(),
-          producto.price= faker.commerce.price(),
-          producto.thumbnail= faker.image.imageUrl(),
-          producto.description= faker.commerce.productDescription(),
-          producto.code= faker.random.alphaNumeric(5),
-          producto.stock= faker.random.numeric()
-          productos.push(producto)
-      }
-      const template = handlebars.compile("index.hbs");
-      const html = template({ productos })
-     res.status(200).render(html);
-    
-  })
-
-app.get('/api/productos', async function (req, res) {
-    res.json(await productosApi.getAll())
-  })
-
-app.get('/api/productos/:id', async function (req, res) {
-    res.json(await productosApi.getById(req.params.id))
-  })
-
-app.post('/api/productos', async function(req, res) {
-      res.json(await productosApi.save(req.body))
-  })
-
-
-  app.put('/api/productos/:id', async function (req, res) {
-      res.json(await productosApi.updateProducts(req.body, req.params.id))
-  })
-
-
-  app.delete('/api/productos/:id', async function (req, res) {
-   res.json(await productosApi.deleteById(req.params.id))
-  })
-
-  app.get('/api/mensajes-test', async function (req, res) {
-    res.json(await mensajesApi.getAll())
-  })
 /*------------- SOCKET.IO-----------------------*/
 
 io.on('connection', async socket => {
    // console.log('Se ha  un nuevo usuario');
 
     //Tabla de productos introducidos
-    socket.emit('productos', productosApi.getAll());
+
+    socket.emit( 'productos', await productosApi.getAll());
 
     socket.on('update', producto => {
         productosApi.save(producto)

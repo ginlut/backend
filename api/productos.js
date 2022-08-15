@@ -1,75 +1,64 @@
 const knex = require('knex')
 
 const { faker } =require('@faker-js/faker');
-
+const config = require("../databases/config");
+const mongoose = require('mongoose')
 
 class Productos {
-    constructor(config, nombreTabla) {
-      this.productos = []
-      this.nombreTabla = nombreTabla
-      this.dbproductos = knex(config)
-      this.createTable();
+    constructor(modelo) {
+      this.collection = modelo;
+    }
+    
+    getAll = async () => {
+        try {
+            const allProducts = await this.collection.find()
+            return allProducts   
+        } catch (error) {
+            return []
+        }
+
+    }
+    getById = async(id) => {
+        const doc = await this.collection.findById(id);
+        return doc || { error: 'producto no encontrado' }
     }
 
-    createTable = async () => {
+    save = async(producto) => {
         try {
-          const exists = await this.dbproductos.schema.hasTable(this.nombreTabla)
-          if (!exists) {
-              await this.dbproductos.schema.createTable(this.nombreTabla, (table) => {
-              table.increments("id").primary();
-              table.string("title", 50).notNullable();
-              table.integer("price");
-              table.string("thumbnail");     
-              table.string("description");   
-              table.string("code");     
-              table.integer("stock");    
-            });
-          console.log(`Tabla ${this.nombreTabla} creada`);
-        } else{
-          console.log(`La tabla ${this.nombreTabla} ya existe`)
-        }          
-      } catch (error) {
-          console.log(error);
-          this.dbproductos.destroy();
+            producto.timestamp = Date.now()
+            let product = new this.collection(producto).save()
+            return product
+        } catch (error) {
+            throw new Error(`Error al guardar: ${error}`)
         }
-      };
-      
-    getAll = async () => {
-      try {
-        const products = await this.dbproductos.from(this.nombreTabla).select('*');
-        return products
-      } catch (e) {
-        console.log(e);
-        this.dbproductos.destroy();    
-      }
-    };
+    }
 
-    getById = async (id) => {
-      try {
-        const product = await this.dbproductos.from(this.nombreTabla).select('*').where("id", "=", Number(id))    
-        return product
-      } catch (e) {
-        console.log(e);
-        this.dbproductos.destroy();
-        return { error: 'producto no encontrado' }
-      }
-    };
 
-    save = async (producto) => {
-      try {
+
+    updateProducts = async(product, id) => {
+            try {
+                const document = this.collection.findById(id);
+                const updatedProduct = await document.updateOne(product);
+                return updatedProduct
+            } catch (error) {
+                throw new Error(`Error al modificar: ${error}`)
+            }
     
-      const result = await this.dbproductos(this.nombreTabla).insert(producto)
-      console.log('Producto insertado en la tabla')
-      return result
-
-      } catch(err) {
-          console.log(err)
-      }
-  }
-
-  saveFaker = async (producto) => {
+    }
+    
+    deleteById = async(id)  =>{
+        try {
+            const document = this.collection.findById(id);
+            const deleteProduct = await document.deleteOne();
+            return deleteProduct
+        } catch (error) {
+            throw new Error(`Error al modificar: ${error}`)
+        }
+    } 
+}
+  saveFaker = async (n) => {
     try {
-      for  (let i = 0; i<6; i++){
+      for  (let i = 1; i <= n; i++){
       const product = {
         title: faker.commerce.productName(),
         price: faker.commerce.price(),
@@ -78,38 +67,16 @@ class Productos {
         code: faker.random.alphaNumeric(5),
         stock: faker.random.numeric()
       }
-    const result = await this.dbproductos(this.nombreTabla).insert(product)
+    const result = await this.collection.save(product)
     console.log('Producto insertado en la tabla')
     return result
   }
   
     } catch(err) {
         console.log(err)
-        this.dbproductos.destroy()
+        this.collection.destroy()
     }
 }
 
-  
-    updateProducts = async (product, id) => {
-      try {
-        await this.dbproductos.from(this.nombreTabla).where("id", "=", Number(id)).update(product)
-        console.log('Producto actualizado')
-      } catch (e) {
-        console.log(e);
-        database.destroy()
-      }
-    };
-
-  deleteById = async (id) => {
-    try {
-      await this.dbproductos.from(this.nombreTabla).where("id", "=", Number(id)).del()
-      console.log('Producto eliminado')
-    } catch (e) {
-      console.log(e);
-      database.destroy()
-    }
-  };
-
-}
 
 module.exports =  Productos

@@ -13,14 +13,8 @@ module.exports = {
   auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
   client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-vg5u3%40backend-c865e.iam.gserviceaccount.com"
 },
-  configMariaDB : {
-  client: 'mysql',
-  connection: {
-    host: '127.0.0.1',
-    user: 'root',
-    password: '',
-    database: 'ecommerce'
-  },
-  pool: { min: 0, max: 7 }
+mongodb: {
+  connectionString: "mongodb://localhost:27017/productos",
 }
+
 }
