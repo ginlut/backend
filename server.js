@@ -88,7 +88,7 @@ app.get('/logout', (req, res) => {
   if (req.session.username) {
       req.session.destroy(err => {
           if (!err) {
-              res.sendFile(path.join(__dirname, "./public/logout.html"))
+              res.sendFile(path.join(__dirname, "./public/login.html"))
           } else {
               res.redirect('/')
           }
