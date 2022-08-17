@@ -1,5 +1,3 @@
-const knex = require('knex')
-
 const { faker } =require('@faker-js/faker');
 const config = require("../databases/config");
 const mongoose = require('mongoose')

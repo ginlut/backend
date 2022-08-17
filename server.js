@@ -13,10 +13,11 @@ const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const path = require("path");
-const { login, auth } = require("./auth")
+const { login, auth } = require("./middlewares")
 const routes = require('./routes/routes')
+const passport = require("passport");
 
-
+const users = [];
 
 /*------------- SERVIDOR APP-----------------------*/
 
@@ -24,13 +25,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(`${__dirname}/public`));
 
-app.engine(
-  "hbs",
-  handlebars({
-      extname: ".hbs",
-      defaultLayout: 'index.hbs',
-  })
-);
 app.set("view engine", "hbs");
 app.set("views", "./public");
 
@@ -47,19 +41,24 @@ app.use(
     saveUninitialized: false,
     rolling: true, 
     cookie: {
+      httpOnly: false,
+      secure: false,
       maxAge: 500000,
     },
   })
 );
-
-
 app.get("/", auth, (req, res) => {
-    res.sendFile(path.join(__dirname, "/public/home.html"));
+    res.sendFile(path.join(__dirname, "/public/views/home.html"));
   }
 );
 
+app.get('/data',(req, res)=>{
+  res.json({ user: req.session.name})
+  console.log("Hola")
+})
+
 app.get("/login", login, (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/login.html"))});
+  res.sendFile(path.join(__dirname, "./public/views/login.html"))});
   
 
 app.get("/api/login", async (req, res) => {
@@ -82,7 +81,7 @@ app.get('/logout', (req, res) => {
   if (req.session.name) {
       req.session.destroy(err => {
           if (!err) {
-              res.sendFile(path.join(__dirname, "./public/logout.html"))
+              res.sendFile(path.join(__dirname, "./public/views/logout.html"))
           } else {
               res.redirect('/')
           }

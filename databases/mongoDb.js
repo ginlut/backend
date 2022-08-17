@@ -3,7 +3,7 @@ const config = require('./config')
 
 const connectMongoDb = async()=>{
   try{
-    mongoose.connect(config.mongodb.connectionString,
+    mongoose.connect(config.mongodbProducts.connectionString,
         {useNewUrlParser: true, 
         useUnifiedTopology: true,
         retryWrites:true})

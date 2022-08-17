@@ -13,8 +13,12 @@ module.exports = {
   auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
   client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-vg5u3%40backend-c865e.iam.gserviceaccount.com"
 },
-mongodb: {
+mongodbProducts: {
   connectionString: "mongodb://localhost:27017/productos",
+},
+
+mongodbUsers: {
+  connectionString: "mongodb://localhost:27017/usuarios",
 }
 
 }

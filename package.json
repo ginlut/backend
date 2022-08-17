@@ -17,24 +17,15 @@
     "express-handlebars": "^5.2.0",
     "firebase-admin": "^11.0.0",
     "handlebars": "^4.7.7",
-    "knex": "^2.1.0",
-    "mysql": "^2.18.1",
     "normalizr": "^3.6.2",
     "socket.io": "^4.5.1",
-    "sqlite3": "^5.0.8",
     "connect-mongo": "^4.6.0",
     "express-session": "^1.17.3",
     "dotenv": "^16.0.1",
-    "mongoose": "^6.4.6"
+    "mongoose": "^6.4.6",
+    "passport": "^0.4.1",
+    "bcrypt": "^5.0.1",
+    "passport-local": "^1.0.0"
   },
-  "keywords": [],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ginlut/milkycream-react.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ginlut/milkycream-react/issues"
-  },
-  "homepage": "https://github.com/ginlut/milkycream-react#readme",
-  "description": ""
+  "keywords": []
 }

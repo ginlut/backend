@@ -1,5 +1,5 @@
 const loginForm = document.querySelector("#loginForm");
-const nameInput = document.querySelector("#name");
+const nameInput = document.querySelector("#username");
 
 
 async function submitHandler(e) {
