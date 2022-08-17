@@ -13,7 +13,7 @@ const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const path = require("path");
-const { login, auth } = require("./auth")
+const { login, auth } = require("./middlewares")
 const routes = require('./routes/routes')
 
 
@@ -58,13 +58,19 @@ app.get("/", auth, (req, res) => {
   }
 );
 
+app.get('/data',(req, res)=>{
+  res.json({ user: req.session.username})
+})
+
 app.get("/login", login, (req, res) => {
   res.sendFile(path.join(__dirname, "./public/login.html"))});
   
 
+
+
 app.get("/api/login", async (req, res) => {
   try {
-    req.session.name = req.query.name;
+    req.session.username = req.query.username;
     res.redirect("/");
   } catch (err) {
     res.json({ error: true, message: err });
@@ -74,12 +80,12 @@ app.get("/api/login", async (req, res) => {
 
 
 app.post('/login', (req, res) => {
-  req.session.name = req.body.name
+  req.session.username = req.body.username
   res.redirect('/')
 })
 
 app.get('/logout', (req, res) => {
-  if (req.session.name) {
+  if (req.session.username) {
       req.session.destroy(err => {
           if (!err) {
               res.sendFile(path.join(__dirname, "./public/logout.html"))
