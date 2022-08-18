@@ -1,5 +1,5 @@
 function auth(req, res, next) {
-  if (req.session.username) {
+  if (req.session.user) {
     next();
   } else {
     res.redirect("/login");
@@ -7,11 +7,22 @@ function auth(req, res, next) {
 }
 
 function login(req, res, next) {
-  if (req.session.username) {
+  if (req.session.user) {
     res.redirect("/");
   } else {
     next();
   }
 }
 
-module.exports = {login, auth};
+function checkAuth(req, res, next) {
+  if (req.session.user) {
+    return next();
+  }
+
+  res.json({
+    error: true,
+    message: "you dont have permission to visit this page",
+  });
+}
+
+module.exports = {login, auth, checkAuth};

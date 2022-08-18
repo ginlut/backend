@@ -9,11 +9,6 @@ const puerto = 8080
 const {productosApi} = require("./databases/daos/ProductosDaoMongoDb");
 const ContenedorMensajes = require('./api/contenedorMensajes')
 const mensajesApi = new ContenedorMensajes('mensajes')
-const MongoStore = require("connect-mongo");
-const cookieParser = require("cookie-parser");
-const session = require("express-session");
-const path = require("path");
-const { login, auth } = require("./middlewares")
 const routes = require('./routes/routes')
 
 
@@ -33,70 +28,7 @@ app.engine(
 );
 app.set("view engine", "hbs");
 app.set("views", "./public");
-
-app.use(cookieParser());
 app.use('/', routes) 
-app.use(
-  session({
-    store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://GinaLutfallah:Gina123@cluster0.9yyhw.mongodb.net/?retryWrites=true&w=majority",
-    }),
-    secret: 'backend',
-    resave: false,
-    saveUninitialized: false,
-    rolling: true, 
-    cookie: {
-      maxAge: 500000,
-    },
-  })
-);
-
-
-app.get("/", auth, (req, res) => {
-    res.sendFile(path.join(__dirname, "/public/home.html"));
-  }
-);
-
-app.get('/data',(req, res)=>{
-  res.json({ user: req.session.username})
-})
-
-app.get("/login", login, (req, res) => {
-  res.sendFile(path.join(__dirname, "./public/login.html"))});
-  
-
-
-
-app.get("/api/login", async (req, res) => {
-  try {
-    req.session.username = req.query.username;
-    res.redirect("/");
-  } catch (err) {
-    res.json({ error: true, message: err });
-  }
-});
-
-
-
-app.post('/login', (req, res) => {
-  req.session.username = req.body.username
-  res.redirect('/')
-})
-
-app.get('/logout', (req, res) => {
-  if (req.session.username) {
-      req.session.destroy(err => {
-          if (!err) {
-              res.sendFile(path.join(__dirname, "./public/login.html"))
-          } else {
-              res.redirect('/')
-          }
-      })
-  } else {
-      res.redirect('/')
-  }
-})
 
 /*------------- SOCKET.IO-----------------------*/
 

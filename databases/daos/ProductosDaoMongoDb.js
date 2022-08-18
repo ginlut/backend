@@ -12,7 +12,7 @@ switch (process.env.DATABASE) {
 
   case "mongo":
     Productos = require('../../api/productos');
-    const connectMongoDb = require("../mongoDb");
+    const connectMongoDbProduct = require("../mongoDb");
     const productModel = require('../models/producto')
     productosApi = new Productos(productModel)
 

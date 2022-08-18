@@ -10,29 +10,28 @@
 </head>
 <body class="bg-light text-dark card container fluid">
     <div  class="bg-light text-dark card container fluid">
-        <form action="/login" method="POST" class="row justify-content-md-center">
-            <h2 class="pb-2 mb-4 text-danger border-bottom border-danger card-header">Login de usuario</h2>
+        <form action="/signup" method="POST" class="row justify-content-md-center">
+            <h2 class="pb-2 mb-4 text-danger border-bottom border-danger card-header">Registro de usuario</h2>
             <div class="mb-3">
-                <label  class="form-label">Usuario:</label>
-                <input type="text" class="form-control" name="username" placeholder="Ingresa tu email">
-            </div>
-            <div class="mb-3">
-                <label  class="form-label">Password:</label>
-                <input type="password" class="form-control" name="password" placeholder="Ingresa tu contraseña">
-            </div>
+                <div class="mb-3">
+                    <label  class="form-label">Usuario:</label>
+                    <input type="text" class="form-control" name="username" placeholder="Ingresa tu email"/>
+                </div>
+                <div class="mb-3">
+                    <label  class="form-label">Password:</label>
+                    <input type="password" class="form-control" name="password" placeholder="Ingresa tu contraseña"/>
+                </div>
             <div class="d-flex justify-content-center">
-                <input type="submit"  id="btnLogin" class="btn btn-dark" value="Ingresar">
+                <input type="submit" class="btn btn-dark" value="Registrarse"/>
             </div>
         </form>
 
     </div>
     <div class="d-flex justify-content-center">
-        <a href="/signup" class="btn btn-dark"> Registrarse </a>
-      </div>
+        <a href="/login" class="btn btn-dark"> Iniciar sesión </a>
+    </div>
 
-    <script src="js/script.js"></script>
     <script src="js/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </body>
 </html>

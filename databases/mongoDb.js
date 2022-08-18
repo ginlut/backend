@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const config = require('./config')
 
-const connectMongoDb = async()=>{
+const connectMongoDbProduct = async()=>{
   try{
-    mongoose.connect(config.mongodb.connectionString,
+    mongoose.connect(config.mongodbProducts.connectionString,
         {useNewUrlParser: true, 
         useUnifiedTopology: true,
         retryWrites:true})
@@ -15,6 +15,6 @@ const connectMongoDb = async()=>{
     }
 }
 
-connectMongoDb();
+connectMongoDbProduct();
 
-module.exports = connectMongoDb;
+module.exports = connectMongoDbProduct;

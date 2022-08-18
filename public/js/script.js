@@ -1,17 +1,17 @@
-const loginForm = document.querySelector("#loginForm");
-const nameInput = document.querySelector("#username");
+// const loginForm = document.querySelector("#loginForm");
+// const nameInput = document.querySelector("#username");
 
 
-async function submitHandler(e) {
-  e.preventDefault();
-  try {
-    await fetch(`/api/login?username=${nameInput.value}`);
+// async function submitHandler(e) {
+//   e.preventDefault();
+//   try {
+//     await fetch(`/api/login?username=${nameInput.value}`);
 
-    window.location.href = "/";
-  } catch (err) {
-    console.log(err);
-  }
-}
+//     window.location.href = "/";
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
 
+// loginForm.addEventListener("submit", submitHandler);
 
-loginForm.addEventListener("submit", submitHandler);
