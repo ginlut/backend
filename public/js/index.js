@@ -89,8 +89,10 @@ inputMessage.addEventListener('input', () => {
 const logout = document.querySelector("#desloguear")
 
 logout.addEventListener('click', ()=>{
+    console.log("bye")
     location.href = '/logout'
 });
+
 
 /*-----------------------------------*/
 

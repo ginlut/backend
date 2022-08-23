@@ -9,8 +9,38 @@ const puerto = 8080
 const {productosApi} = require("./databases/daos/ProductosDaoMongoDb");
 const ContenedorMensajes = require('./api/contenedorMensajes')
 const mensajesApi = new ContenedorMensajes('mensajes')
-const routes = require('./routes/routes')
+const passport = require("passport");
+const initPassport = require( './passport/init')
+const routes = require('./routes/routes')(passport)
+const MongoStore = require("connect-mongo");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const mongoose = require( "mongoose")
 
+
+
+mongoose.connect("mongodb+srv://GinaLutfallah:Gina123@cluster0.9yyhw.mongodb.net/?retryWrites=true&w=majority");
+
+
+
+app.use(cookieParser());
+
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://GinaLutfallah:Gina123@cluster0.9yyhw.mongodb.net/?retryWrites=true&w=majority"}),
+    secret: 'backend',
+    resave: false,
+    saveUninitialized: false,
+    rolling: true, 
+    cookie: {
+      maxAge: 500000,
+      httpOnly: false,
+      secure: false
+    },
+  })
+);
 
 
 /*------------- SERVIDOR APP-----------------------*/
@@ -28,7 +58,15 @@ app.engine(
 );
 app.set("view engine", "hbs");
 app.set("views", "./public");
+
+
+
+// PASSPORT
+app.use(passport.initialize());
+app.use(passport.session());
+initPassport(passport);
 app.use('/', routes) 
+
 
 /*------------- SOCKET.IO-----------------------*/
 

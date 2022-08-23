@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div style="background-color: rgb(164, 19, 19);color: white; margin-bottom: 10px; padding: 15px;">
+            <h1>Credenciales no válidas</h1>
+        </div>
+        <button style="background-color: rgb(78, 193, 78); border-radius: 5px;" onclick="volver()">VOLVER</button>
+    </div>
+    
+    <script>
+        function redireccionar(pagina) {
+            location.href = pagina;
+        } 
+        function volver() {
+            console.log('volver');
+            redireccionar('/login')
+        }
+    </script>
+</body>
+</html>
