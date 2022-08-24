@@ -5,7 +5,9 @@ const handlebars = require('express-handlebars')
 const app = express()
 const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
-const puerto = 8080
+require("dotenv").config();
+const port = require('./minimist')
+//const puerto = 8080
 const {productosApi} = require("./databases/daos/ProductosDaoMongoDb");
 const ContenedorMensajes = require('./api/contenedorMensajes')
 const mensajesApi = new ContenedorMensajes('mensajes')
@@ -17,11 +19,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const mongoose = require( "mongoose")
 
-
-
-mongoose.connect("mongodb+srv://GinaLutfallah:Gina123@cluster0.9yyhw.mongodb.net/?retryWrites=true&w=majority");
-
-
+mongoose.connect(process.env.MONGO_URL);
 
 app.use(cookieParser());
 
@@ -29,8 +27,8 @@ app.use(
   session({
     store: MongoStore.create({
       mongoUrl:
-        "mongodb+srv://GinaLutfallah:Gina123@cluster0.9yyhw.mongodb.net/?retryWrites=true&w=majority"}),
-    secret: 'backend',
+        process.env.MONGO_URL}),
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     rolling: true, 
@@ -41,7 +39,6 @@ app.use(
     },
   })
 );
-
 
 /*------------- SERVIDOR APP-----------------------*/
 
@@ -97,7 +94,7 @@ io.on('connection', async socket => {
 
  /*---------------SERVIDOR-------------------*/   
 
- const connectedServer = httpServer.listen(puerto, () => {
+ const connectedServer = httpServer.listen(port, () => {
     //console.log(`Servidor http escuchando en el puerto ${connectedServer.address().port}`)
 })
 connectedServer.on('error', error => console.log(`Error en servidor ${error}`))

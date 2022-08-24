@@ -11,8 +11,6 @@ module.exports= function (passport){
         async (req, username, password, done) => {
         try { 
             const user = await User.findOne({ 'username' :  username });
-            console.log("se ha encontrado al usuario")
-
             if (!user || !isValidPassword(user, password)) {
                 return done("Usario y/o contraseña inválidos", false);
             }

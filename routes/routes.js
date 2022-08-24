@@ -4,9 +4,30 @@ const path = require("path");
 const router = Router()
 const { login, auth, checkAuth } = require("../middlewares")
 const passport = require("passport");
+const util = require("util");
+
+
+
 
 
 module.exports = function(passport){
+
+
+router.get("/info", (req, res) => {
+  res.json(
+  `  Titulo del proceso: ${process.title}
+  Sistema operativo: ${process.platform}
+  Version de Node: ${process.version}
+  Memoria total reservada: ${util.inspect(process.memoryUsage(), {
+    showHidden: false,
+    depth: null,
+    colors: true})}
+  Path de ejecución: ${util.inspect(process.execPath)}
+  Process id: ${process.pid}    
+  Carpeta del proyecto: ${process.cwd()}`
+    )})
+  
+
 
 router.get("/", (req, res) => {
   if(req.isAuthenticated()){
