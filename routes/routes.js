@@ -27,6 +27,8 @@ router.get("/login", (req, res) => {
     }else{
       res.sendFile(path.join(__dirname, "../public/login.html"))}
 });
+
+
   
 
 router.post('/login',passport.authenticate('login',
@@ -35,6 +37,7 @@ router.post('/login',passport.authenticate('login',
       res.redirect('/')
     }
 )
+
 
 router.get('/failedLogin',(req, res)=>{
   res.sendFile(path.join(__dirname, "../public/plantillas/faillogin.html"));
@@ -70,16 +73,12 @@ res.sendFile(path.join(__dirname, "../public/plantillas/failedSignup.html"));
 
 
 
-router.get('/logout',  function(req, res, next) {
-  let user= req.user.username
-  req.logout(function(err) {  
-    if (err)  return next(err); 
-  res.send(`<h1>Hasta luego ${user}</h1>
-      <script type="text/javascript">
-      setTimeout(function(){ location.href = '/login'},2000)
-      </script>`
-    )
-})})
+router.get('/logout', function(req, res, next) {
+  req.logout(function(err) {
+    if (err) {     console.log(err); return next(err); }
+  });
+  res.redirect('/');
+})  
 
 return router;
 }

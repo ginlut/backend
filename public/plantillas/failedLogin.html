@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta content="application/javascript;charset=utf-8" http-equiv="Content-Type" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <title>Tarea 24</title>
 </head>
 <body>
     <div>
-        <div style="background-color: rgb(164, 19, 19);color: white; margin-bottom: 10px; padding: 15px;">
-            <h1>Credenciales no válidas</h1>
+        <div>
+            <h1 class="pb-2 mb-4 text-danger border-bottom border-danger card-header">Usario y/o contraseña inválidos</h1>
         </div>
-        <button style="background-color: rgb(78, 193, 78); border-radius: 5px;" onclick="volver()">VOLVER</button>
+        <button class="btn btn-dark" onclick="volver()">Volver</button>
     </div>
     
     <script>
@@ -19,7 +21,6 @@
             location.href = pagina;
         } 
         function volver() {
-            console.log('volver');
             redireccionar('/login')
         }
     </script>
