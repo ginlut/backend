@@ -5,6 +5,7 @@ const router = Router()
 const { login, auth, checkAuth } = require("../middlewares")
 const passport = require("passport");
 const util = require("util");
+const { fork } = require("child_process");
 
 
 
@@ -15,7 +16,7 @@ module.exports = function(passport){
 
 router.get("/info", (req, res) => {
   res.json(
-  `  Titulo del proceso: ${process.title}
+  `Titulo del proceso: ${process.title}
   Sistema operativo: ${process.platform}
   Version de Node: ${process.version}
   Memoria total reservada: ${util.inspect(process.memoryUsage(), {
@@ -26,7 +27,15 @@ router.get("/info", (req, res) => {
   Process id: ${process.pid}    
   Carpeta del proyecto: ${process.cwd()}`
     )})
-  
+
+
+router.get("/api/randoms",(req, res) => { 
+  const forked = fork("child.js");
+  forked.send(req.query.cant ? Number(req.query.cant) : 100000000)
+  forked.on('message', (msg) => {
+  res.json(msg);
+  });
+});
 
 
 router.get("/", (req, res) => {
