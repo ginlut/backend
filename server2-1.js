@@ -86,9 +86,11 @@ initPassport(passport);
 
  });
 } else{
-  app.use('/', routes) 
+  app.get('/api/randoms/datos'),(req, res)=>{
+    res.send(`Server2-1 - PORT: ${port}`)
+  }
   const connectedServer = httpServer.listen(port, () => {
-    console.log(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
+    //console.log(`Servidor http escuchando en el puerto ${connectedServer.address().port}`)
 })
 connectedServer.on('error', error => console.log(`Error en servidor ${error}`))
 }

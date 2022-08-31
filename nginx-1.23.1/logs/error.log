@@ -1,0 +1,1 @@
+2022/08/30 21:48:01 [error] 47584#36480: *1 CreateFile() "C:\Users\Kevin\Documents\Full Stack\nginx-1.23.1/html/favicon.ico" failed (2: El sistema no puede encontrar el archivo especificado), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/"

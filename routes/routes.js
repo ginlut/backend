@@ -3,15 +3,16 @@ const {productosApi} = require("../databases/daos/ProductosDaoMongoDb");
 const path = require("path");
 const router = Router()
 const { login, auth, checkAuth } = require("../middlewares")
-const passport = require("passport");
+//const passport = require("passport");
 const util = require("util");
 const { fork } = require("child_process");
 
 
 
-
-
 module.exports = function(passport){
+
+router.get("/datos"),(req, res) => {
+  res.send("Server fork" )}
 
 
 router.get("/info", (req, res) => {
@@ -25,17 +26,18 @@ router.get("/info", (req, res) => {
     colors: true})}
   Path de ejecución: ${util.inspect(process.execPath)}
   Process id: ${process.pid}    
-  Carpeta del proyecto: ${process.cwd()}`
+  Carpeta del proyecto: ${process.cwd()}
+  Procesadores presentes: ${process.pid}`
     )})
 
 
-router.get("/api/randoms",(req, res) => { 
-  const forked = fork("child.js");
-  forked.send(req.query.cant ? Number(req.query.cant) : 100000000)
-  forked.on('message', (msg) => {
-  res.json(msg);
-  });
-});
+// router.get("/api/randoms",(req, res) => { 
+//   const forked = fork("child.js");
+//   forked.send(req.query.cant ? Number(req.query.cant) : 100000000)
+//   forked.on('message', (msg) => {
+//   res.json(msg);
+//   });
+// });
 
 
 router.get("/", (req, res) => {
