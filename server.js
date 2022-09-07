@@ -22,6 +22,8 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const mongoose = require( "mongoose")
 const { fork } = require("child_process");
+const logger = require("./logger")
+
 
 
 
@@ -88,9 +90,9 @@ initPassport(passport);
 } else{
   app.use('/', routes) 
   const connectedServer = httpServer.listen(port, () => {
-    console.log(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
+    logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
 })
-connectedServer.on('error', error => console.log(`Error en servidor ${error}`))
+connectedServer.on('error', error => logger.fatal(`Error en servidor ${error}`))
 }
 
 

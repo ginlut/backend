@@ -6,6 +6,9 @@ const { login, auth, checkAuth } = require("../middlewares")
 //const passport = require("passport");
 const util = require("util");
 const { fork } = require("child_process");
+const compression = require('compression')
+router.use(compression())
+const logger = require("../logger")
 
 
 
@@ -16,6 +19,17 @@ router.get("/datos"),(req, res) => {
 
 
 router.get("/info", (req, res) => {
+  console.log(  `Titulo del proceso: ${process.title}
+  Sistema operativo: ${process.platform}
+  Version de Node: ${process.version}
+  Memoria total reservada: ${util.inspect(process.memoryUsage(), {
+    showHidden: false,
+    depth: null,
+    colors: true})}
+  Path de ejecución: ${util.inspect(process.execPath)}
+  Process id: ${process.pid}    
+  Carpeta del proyecto: ${process.cwd()}
+  Procesadores presentes: ${process.pid}`)
   res.json(
   `Titulo del proceso: ${process.title}
   Sistema operativo: ${process.platform}
@@ -54,7 +68,7 @@ router.get('/data',(req, res)=>{
 
 router.get("/login", (req, res) => {
   if(req.isAuthenticated()){
-
+    logger.info(`Ingreso exitoso`);
     res.redirect('/')
     }else{
       res.sendFile(path.join(__dirname, "../public/login.html"))}
@@ -98,6 +112,8 @@ router.post('/signup',passport.authenticate('signup',{ failureRedirect: '/failed
 })
 
 
+
+
 ///FAIL SIGNUP
 router.get('/failedSignup',(req, res)=>{
 res.sendFile(path.join(__dirname, "../public/plantillas/failedSignup.html"));
@@ -110,6 +126,20 @@ router.get('/logout', function(req, res, next) {
     if (err) {     console.log(err); return next(err); }
   });
   res.redirect('/');
+
+  router.get('/api/mensajes', async function (req, res) {
+    try{
+      res.json(await mensajesApi.getAll())}
+      catch(err){
+        logger.error(`error ${err} al mostrar mensajes`);
+      }
+  })
+
+  app.get("*", (req, res) => {
+    const { url, method } = req;
+    logger.warn(`Ruta ${method} ${url} no implementada`);
+    res.send(`Ruta ${method} ${url} no está implementada`);
+  });
 })  
 
 return router;
@@ -146,9 +176,7 @@ return router;
 //    res.json(await productosApi.deleteById(req.params.id))
 //   })
 
-//   router.get('/api/mensajes-test', async function (req, res) {
-//     res.json(await mensajesApi.getAll())
-//   })
+
 
 
 
