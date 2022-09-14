@@ -65,6 +65,7 @@ app.engine(
 );
 app.set("view engine", "hbs");
 app.set("views", "./public");
+app.use('/', routes) 
 
 
 
@@ -75,10 +76,7 @@ app.use(passport.session());
 app.use(passport.authenticate('session'));
 initPassport(passport);
 
- /*---------------SERVIDOR // CLUSTER-------------------*/   
-
-  app.use('/', routes) 
-  const connectedServer = httpServer.listen(process.env.PORT || 8080, () => {
+const connectedServer = httpServer.listen(process.env.PORT || 8080, () => {
     logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
 })
 
