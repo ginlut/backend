@@ -10,7 +10,7 @@ const os = require("os");
 const cluster = require("cluster");
 const cpus = os.cpus();
 const isCluster = process.argv[3] == "cluster";
-const port = Number(process.argv[2]) || 8080;
+const port = process.env.PORT || 8080;
 const {productosApi} = require("./databases/daos/ProductosDaoMongoDb");
 const ContenedorMensajes = require('./api/contenedorMensajes')
 const mensajesApi = new ContenedorMensajes('mensajes')
@@ -76,13 +76,11 @@ app.use(passport.authenticate('session'));
 initPassport(passport);
 
  /*---------------SERVIDOR // CLUSTER-------------------*/   
-app.use('/', routes) 
 
-const connectedServer = httpServer.listen(process.env.PORT || 3000, () => {
+  app.use('/', routes) 
+  const connectedServer = httpServer.listen(port, () => {
     logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
 })
-
-
 
 /*------------- SOCKET.IO-----------------------*/
 
