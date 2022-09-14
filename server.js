@@ -76,24 +76,11 @@ app.use(passport.authenticate('session'));
 initPassport(passport);
 
  /*---------------SERVIDOR // CLUSTER-------------------*/   
+app.use('/', routes) 
 
- if (isCluster && cluster.isPrimary) {
-  cpus.map(() => {
-    cluster.fork()
- });
-
- cluster.on("exit", (worker) => {
-  console.log(`worker ${worker.process.pid} died`)
-  cluster.fork();
-
- });
-} else{
-  app.use('/', routes) 
-  const connectedServer = httpServer.listen(port, () => {
+const connectedServer = httpServer.listen(process.env.PORT || 3000, () => {
     logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
 })
-connectedServer.on('error', error => logger.fatal(`Error en servidor ${error}`))
-}
 
 
 
