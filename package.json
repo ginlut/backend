@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "0x server.js",
-    "test": "npm run setup && node benchmark.js"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",

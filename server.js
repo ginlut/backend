@@ -78,7 +78,7 @@ initPassport(passport);
  /*---------------SERVIDOR // CLUSTER-------------------*/   
 
   app.use('/', routes) 
-  const connectedServer = httpServer.listen(port, () => {
+  const connectedServer = httpServer.listen(process.env.PORT || 8080, () => {
     logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
 })
 
