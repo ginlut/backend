@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="application/javascript;charset=utf-8" http-equiv="Content-Type" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link
+     rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"
+   />
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <title>Tarea 24</title>
 </head>
 <body class="bg-light text-dark card container fluid">
@@ -21,6 +26,27 @@
                     <label  class="form-label">Password:</label>
                     <input type="password" class="form-control" name="password" placeholder="Ingresa tu contraseña"/>
                 </div>
+                <div class="mb-3">
+                    <label  class="form-label">Nombre:</label>
+                    <input type="text" class="form-control" name="name" placeholder="Ingresa tu nombre"/>
+                </div>
+                <div class="mb-3">
+                    <label  class="form-label">Dirección:</label>
+                    <input type="text" class="form-control" name="address" placeholder="Ingresa tu dirección"/>
+                </div>                
+                <div class="mb-3">
+                    <label  class="form-label">Edad:</label>
+                    <input type="number" class="form-control" name="age" placeholder="Ingresa tu edad"/>
+                </div>
+                <div class="mb-3">
+                    <label  class="form-label">Número de teléfono:</label>
+                    <input id="phone" type="tel" name="phone" class="form-control" placeholder="Ingresa tu número de teléfono"/>
+                </div>                
+                <div class="mb-3">
+                    <label  class="form-label">Foto o ávatar:</label>
+                    <input type="file" class="form-control" name="picture" placeholder="Carga tu foto"/>
+                </div>
+
             <div class="d-flex justify-content-center">
                 <input type="submit" class="btn btn-dark" value="Registrarse"/>
             </div>
@@ -34,4 +60,12 @@
     <script src="js/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </body>
+<script>
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+    utilsScript:
+        "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+</script>
+ 
 </html>

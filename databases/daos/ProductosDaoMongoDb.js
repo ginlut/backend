@@ -5,11 +5,6 @@ let productosApi;
 let Productos;
 
 switch (process.env.DATABASE) {
-  case "firebase":
-    Productos = require('../contenedores/productos/contenedorFirebase');
-    productosApi = new Productos('productos')
-    break;
-
   case "mongo":
     Productos = require('../../api/productos');
     const connectMongoDbProduct = require("../mongoDb");

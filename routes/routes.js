@@ -45,15 +45,6 @@ router.get("/info", (req, res) => {
     )})
 
 
-// router.get("/api/randoms",(req, res) => { 
-//   const forked = fork("child.js");
-//   forked.send(req.query.cant ? Number(req.query.cant) : 100000000)
-//   forked.on('message', (msg) => {
-//   res.json(msg);
-//   });
-// });
-
-
 router.get("/", (req, res) => {
   if(req.isAuthenticated()){
     res.sendFile(path.join(__dirname, "../public/home.html"));
@@ -119,40 +110,18 @@ router.get('/failedSignup',(req, res)=>{
 res.sendFile(path.join(__dirname, "../public/plantillas/failedSignup.html"));
 })
 
-
-
 router.get('/logout', function(req, res, next) {
   req.logout(function(err) {
     if (err) {     console.log(err); return next(err); }
   });
   res.redirect('/');
-
-  router.get('/api/mensajes', async function (req, res) {
-    try{
-      res.json(await mensajesApi.getAll())}
-      catch(err){
-        logger.error(`error ${err} al mostrar mensajes`);
-      }
-  })
-
-  app.get("*", (req, res) => {
-    const { url, method } = req;
-    logger.warn(`Ruta ${method} ${url} no implementada`);
-    res.send(`Ruta ${method} ${url} no está implementada`);
-  });
-})  
+})
 
 return router;
+
 }
 
 /*----------------------PRODUCTOS-------------------------- */
-
-
-
-// router.get('/api/productos-test', async function(req, res) {
-//   res.json(await productosApi.saveFaker(5))
-// })
-
 
 // router.get('/api/productos', async function (req, res) {
 //     res.json(await productosApi.getAll())

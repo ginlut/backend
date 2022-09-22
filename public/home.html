@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tarea 24</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"
     integrity="sha512-RNLkV3d+aLtfcpEyFG8jRbnWHxUqVZozacROI4J2F1sTaDqo1dPQYs01OMi1t1w9Y2FdbSCDSQ2ZVdAC8bzgAg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -17,7 +16,7 @@
   <div>
     <h1  id= "welcome"></h1>
     <div class="pb-2 mb-4 text-danger border-bottom border-danger card-header"></div>
-    <button id="desloguear" class="btn btn-dark"> Deslogear</button>
+    <button id="desloguear" class="btn btn-dark"> Desloguear</button>
   </div>
     <div  class="bg-light text-dark card container fluid" >
       <form id="addProduct" class="row justify-content-md-center">
@@ -40,45 +39,6 @@
       </form>
       <br>
       <div id="productos"></div>
-    </div>
-
-    
-    <div  class="bg-light text-dark card container fluid" >
-      <form id="postMessage" class="row justify-content-md-center">
-      <h2 class="pb-2 mb-4 text-danger border-bottom border-danger card-header">Centro de mensajes</h2>
-      <div id="messages"></div>
-      <div class="mb-3">
-        <label class="form-label">Ingresa tu email:</label>
-        <input type="text" class="form-control" id="mail" placeholder="name@example.com" name="title">
-      </div>
-        <div class="mb-3">
-          <label class="form-label">Ingresa tu nombre:</label>
-          <input type="text" class="form-control" id="name" placeholder="Escribe aquí tu nombre...">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Ingresa tu apellido:</label>
-          <input type="text" class="form-control" id="lastname" placeholder="Escribe aquí tu apellido...">
-        </div>
-          <div class="mb-3">
-            <label class="form-label">Ingresa tu edad:</label>
-            <input type="text" class="form-control" id="age" placeholder="Escribe aquí tu edad...">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Ingresa tu alias:</label>
-            <input type="text" class="form-control" id="username" placeholder="Escribe aquí tu alias...">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Ingresa tu avatar:</label>
-            <input type="text" class="form-control" id="avatar" placeholder="Ingresael link a tu avatar...">
-          </div>
-            <div class="mb-3">
-              <label class="form-label">Ingresa tu mensaje:</label>
-              <input type="text" class="form-control" id="inputMessage" placeholder="Escribe aquí tu mensaje...">
-            </div>
-        <div class="d-flex justify-content-center">
-          <input disabled type="submit"  id="btnSend" class="btn btn-dark" value="Enviar">
-        </div>
-      </form>
     </div>
 
   <script src="./js/index.js"></script>

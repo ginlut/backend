@@ -8,6 +8,7 @@ module.exports = function (passport){
             passReqToCallback : true 
         },
         async (req, username, password, done)=> {
+            console.log('Hola')
             try {
                 const existingUser = User.findOne({ 'username' :  username }, 
                     (err, user)=> {
@@ -20,6 +21,11 @@ module.exports = function (passport){
                             const newUser = {
                                 username: req.body.username,
                                 password: hashPassword(password),
+                                name: req.body.name,
+                                address: req.body.address,
+                                age: req.body.age,
+                                phone: req.body.phone,
+                                picture: req.body.picture,  
                                 
                             };
                             const createdUser = User.create(newUser);

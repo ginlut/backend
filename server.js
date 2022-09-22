@@ -12,8 +12,6 @@ const cpus = os.cpus();
 const isCluster = process.argv[3] == "cluster";
 const port = process.env.PORT || 8080;
 const {productosApi} = require("./databases/daos/ProductosDaoMongoDb");
-const ContenedorMensajes = require('./api/contenedorMensajes')
-const mensajesApi = new ContenedorMensajes('mensajes')
 const passport = require("passport");
 const initPassport = require( './passport/init')
 const routes = require('./routes/routes')(passport)
