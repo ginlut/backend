@@ -26,7 +26,6 @@ module.exports = function (passport){
                                 age: req.body.age,
                                 phone: req.body.phone,
                                 picture: req.body.picture,  
-                                
                             };
                             const createdUser = User.create(newUser);
                             return done(null, createdUser);

@@ -10,7 +10,6 @@ const os = require("os");
 const cluster = require("cluster");
 const cpus = os.cpus();
 const isCluster = process.argv[3] == "cluster";
-const port = process.env.PORT || 8080;
 const {productosApi} = require("./databases/daos/ProductosDaoMongoDb");
 const passport = require("passport");
 const initPassport = require( './passport/init')
@@ -52,7 +51,7 @@ app.use(
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-//app.use(express.static(`${__dirname}/public`));
+app.use(express.static(`${__dirname}/public`));
 
 app.engine(
   "hbs",
@@ -74,7 +73,7 @@ app.use(passport.authenticate('session'));
 initPassport(passport);
 app.use('/', routes) 
 
-const connectedServer = httpServer.listen(process.env.PORT || 3000, () => {
+const connectedServer = httpServer.listen(process.env.PORT || 8080, () => {
     logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
 })
 
@@ -88,18 +87,20 @@ io.on('connection', async socket => {
     socket.emit( 'productos', await productosApi.getAll());
 
     socket.on('update', producto => {
+      console.log(producto);
+      console.log("Hola")
         productosApi.save(producto)
         io.sockets.emit('productos', productosApi.getAll());
     })
     
-    //Mensajes del chat
-    socket.emit('messages', await mensajesApi.getAll());
+    // //Mensajes del chat
+    // socket.emit('messages', await mensajesApi.getAll());
 
-    socket.on('newMessage', async message => {
-        message.time = new Date().toLocaleString()
-        await mensajesApi.save(message)
-        io.sockets.emit('messages', await mensajesApi.getAll());
-    })
+    // socket.on('newMessage', async message => {
+    //     message.time = new Date().toLocaleString()
+    //     await mensajesApi.save(message)
+    //     io.sockets.emit('messages', await mensajesApi.getAll());
+    // })
     
 })
 
