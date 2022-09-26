@@ -9,50 +9,30 @@ const { fork } = require("child_process");
 const compression = require('compression')
 router.use(compression())
 const logger = require("../logger")
-const multer = require('multer')
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'upload')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname)
-    }
-})
-const upload = multer({ storage })
-
-
+const upload = require ('../multer/multer')
 
 
 module.exports = function(passport){
-
-  router.get("/api/randoms",(req, res) => { 
-    const forked = fork("child.js");
-    forked.send(req.query.cant ? Number(req.query.cant) : 100000000)
-    forked.on('message', (msg) => {
-    res.json(msg);
-    });
-  });
-  
   
   router.get("/", (req, res) => {
     if(req.isAuthenticated()){
-      res.sendFile(path.join(__dirname, "../public/home.html"));
+      res.render("welcome", {username: req.user.username, avatar: req.user.avatar});
+      //res.sendFile(path.join(__dirname, "../public/home.html"));
     }else{
-      res.sendFile(path.join(__dirname, "../public/login.html")); 
+      res.sendFile(path.join(__dirname, "../public/plantillas/login.html")); 
     }}
   );
   
-  router.get('/data',(req, res)=>{
-    res.json({username: req.user.username})
-  })
+  // router.get('/data',(req, res)=>{
+  //   res.json({username: req.user.username})
+  // })
   
   router.get("/login", (req, res) => {
     if(req.isAuthenticated()){
   
       res.redirect('/')
       }else{
-        res.sendFile(path.join(__dirname, "../public/login.html"))}
+        res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))}
   });
   
   
@@ -83,11 +63,11 @@ module.exports = function(passport){
   
   
   router.get("/signup", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/signup.html"));
+    res.sendFile(path.join(__dirname, "../public/plantillas/signup.html"));
   });
   
   
-  router.post('/signup',passport.authenticate('signup',{ failureRedirect: '/failedSignup',failureMessage: true}),(req, res)=>{
+  router.post('/signup',upload.single('myFile'),passport.authenticate('signup',{ failureRedirect: '/failedSignup',failureMessage: true}),(req, res)=>{
     console.log('req- metodo post-login',req.body)   
     res.redirect('/login') 
   })
@@ -134,5 +114,3 @@ router.get('/api/productos', async function (req, res) {
   
   return router;
   }
-
-/*----------------------PRODUCTOS-------------------------- */

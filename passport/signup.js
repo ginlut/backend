@@ -25,7 +25,7 @@ module.exports = function (passport){
                                 address: req.body.address,
                                 age: req.body.age,
                                 phone: req.body.phone,
-                                picture: req.body.picture,  
+                                avatar:`http://localhost:8080/image/${req.file.filename}`,  
                             };
                             const createdUser = User.create(newUser);
                             return done(null, createdUser);

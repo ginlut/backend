@@ -20,6 +20,7 @@ const session = require("express-session");
 const mongoose = require( "mongoose")
 const { fork } = require("child_process");
 const logger = require("./logger")
+const path = require("path")
 
 
 
@@ -57,12 +58,11 @@ app.engine(
   "hbs",
   handlebars({
       extname: ".hbs",
-      defaultLayout: 'index.hbs',
+      defaultLayout: path.join(__dirname, '/public/views/layout/main.hbs'),
   })
 );
-app.set("view engine", "hbs");
-app.set("views", "./public");
-
+app.set('views', path.join(__dirname, './public/views'))
+app.set('view engine', 'hbs')
 
 
 // PASSPORT
@@ -73,9 +73,24 @@ app.use(passport.authenticate('session'));
 initPassport(passport);
 app.use('/', routes) 
 
-const connectedServer = httpServer.listen(process.env.PORT || 8080, () => {
+if (isCluster && cluster.isPrimary) {
+  cpus.map(() => {
+    cluster.fork()
+ });
+
+ cluster.on("exit", (worker) => {
+  console.log(`worker ${worker.process.pid} died`)
+  cluster.fork();
+
+ });
+} else{
+  app.use('/', routes) 
+  const connectedServer = httpServer.listen(process.env.PORT || 8080, () => {
     logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
 })
+connectedServer.on('error', error => logger.fatal(`Error en servidor ${error}`))
+}
+
 
 /*------------- SOCKET.IO-----------------------*/
 
@@ -91,17 +106,7 @@ io.on('connection', async socket => {
       console.log("Hola")
         productosApi.save(producto)
         io.sockets.emit('productos', productosApi.getAll());
-    })
-    
-    // //Mensajes del chat
-    // socket.emit('messages', await mensajesApi.getAll());
-
-    // socket.on('newMessage', async message => {
-    //     message.time = new Date().toLocaleString()
-    //     await mensajesApi.save(message)
-    //     io.sockets.emit('messages', await mensajesApi.getAll());
-    // })
-    
+    })    
 })
 
 
