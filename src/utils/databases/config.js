@@ -5,5 +5,7 @@ mongodbProducts: {
 mongodbUsers: {
   connectionString: "mongodb://localhost:27017/usuarios",
 },
-puerto: process.env.PUERTO || 8081,
+mongodbCarts: {
+  connectionString: "mongodb://localhost:27017/carritos",
+}
 }

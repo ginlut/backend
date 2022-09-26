@@ -1,31 +1,26 @@
 const { Router, express } = require('express');
-const {productosApi} = require("../databases/daos/ProductosDaoMongoDb");
+const {productosApi} = require("../src/utils/databases/daos/ProductosDaoMongoDb");
+const {carritosApi} = require("../src/utils/databases/daos/CarritosDaoMongoDb");
 const path = require("path");
 const router = Router()
-const { login, auth, checkAuth } = require("../middlewares")
-//const passport = require("passport");
+const { login, auth, checkAuth } = require("../src/middlewares")
 const util = require("util");
-const { fork } = require("child_process");
 const compression = require('compression')
 router.use(compression())
-const logger = require("../logger")
-const upload = require ('../multer/multer')
+const upload = require ('../src/multer/multer')
+const logger = require('../src/utils/logger')
 
 
 module.exports = function(passport){
   
   router.get("/", (req, res) => {
     if(req.isAuthenticated()){
-      res.render("welcome", {username: req.user.username, avatar: req.user.avatar});
-      //res.sendFile(path.join(__dirname, "../public/home.html"));
+      res.redirect('/api/productos')
+      //res.render("home", {username: req.user.username, avatar: req.user.avatar});
     }else{
       res.sendFile(path.join(__dirname, "../public/plantillas/login.html")); 
     }}
   );
-  
-  // router.get('/data',(req, res)=>{
-  //   res.json({username: req.user.username})
-  // })
   
   router.get("/login", (req, res) => {
     if(req.isAuthenticated()){
@@ -34,9 +29,6 @@ module.exports = function(passport){
       }else{
         res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))}
   });
-  
-  
-    
   
   router.post('/login',passport.authenticate('login',
     {failureRedirect: '/failedLogin',failureMessage: true}),
@@ -69,7 +61,7 @@ module.exports = function(passport){
   
   router.post('/signup',upload.single('myFile'),passport.authenticate('signup',{ failureRedirect: '/failedSignup',failureMessage: true}),(req, res)=>{
     console.log('req- metodo post-login',req.body)   
-    res.redirect('/login') 
+    res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))
   })
   
   
@@ -87,10 +79,54 @@ module.exports = function(passport){
     res.redirect('/');
   })  
 
-  
-router.get('/api/productos', async function (req, res) {
-    res.json(await productosApi.getAll())
+  router.get("/user", (req, res)=>{
+    if(req.isAuthenticated()){
+      res.render('user', { user: req.user })
+      }else{
+        res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))}
   })
+
+router.get("/api/productos", async (req, res)  => { 
+  if(req.isAuthenticated()){
+    try {
+      const products = await productosApi.getAll()
+      res.render('products', { products })
+    } catch (error) {
+    // logger.warn('error', error)
+      res.status(404).json({ message: error.message })}
+   }
+  else{
+    res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))} 
+
+})
+
+router.get("/cart", async (req, res)  => {
+  if(req.isAuthenticated()){
+    try {
+      const cart = await carritosApi.getAll()
+      res.render('cart', { cart })
+    } catch (error) {
+    // logger.warn('error', error)
+      res.status(404).json({ message: error.message })
+    }
+  }  else{
+      res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))}   
+  })
+
+
+  /*----------------------PRODUCTOS-------------------------- */
+router.get('/api/productos', async function (req, res) {
+  if(req.isAuthenticated()){
+    try {
+      const products = await productosApi.getAll()
+      res.render('products', { products })
+    } catch (error) {
+    // logger.warn('error', error)
+      res.status(404).json({ message: error.message })}
+   }
+  else{
+    res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))}   
+})
 
   router.get('/api/productos/:id', async function (req, res) {
     res.json(await productosApi.getById(req.params.id))
@@ -110,6 +146,28 @@ router.get('/api/productos', async function (req, res) {
    res.json(await productosApi.deleteById(req.params.id))
   })
 
+  /*----------------------CARRITO-------------------------- */
+
+  router.post('/api/carrito', async function (req, res) {
+    res.json(await carritosApi.save(req.body))
+  })
+  
+  router.delete('/api/carrito/:id', async function (req, res) {
+    res.json(await carritosApi.deleteById(req.params.id))     
+  })
+  
+  router.get('/api/carrito/:id/productos', async function (req, res){
+    res.json(await carritosApi.getProductsByCartId(req.params.id))
+  })
+  
+  router.post('/api/carrito/:id/productos', async function(req, res){
+    const product = await productosApi.getById(req.body.productId)
+    res.json(await carritosApi.addProductToCart(req.params.id, product))
+  })
+  
+  router.delete('/api/carrito/:id/productos/:id_prod', async function(req, res) {
+    res.json(await carritosApi.removeProductFromCart(req.params.id, req.params.id_prod))     
+  })
 
   
   return router;

@@ -10,21 +10,18 @@ const os = require("os");
 const cluster = require("cluster");
 const cpus = os.cpus();
 const isCluster = process.argv[3] == "cluster";
-const {productosApi} = require("./databases/daos/ProductosDaoMongoDb");
+const {productosApi} = require("./src/utils/databases/daos/ProductosDaoMongoDb");
+const {carritossApi} = require("./src/utils/databases/daos/CarritosDaoMongoDb");
 const passport = require("passport");
-const initPassport = require( './passport/init')
+const initPassport = require( './src/passport/init')
 const routes = require('./routes/routes')(passport)
 const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const mongoose = require( "mongoose")
 const { fork } = require("child_process");
-const logger = require("./logger")
+const logger = require("./src/utils/logger")
 const path = require("path")
-
-
-
-
 
 
 mongoose.connect(process.env.MONGO_URL);
@@ -103,7 +100,6 @@ io.on('connection', async socket => {
 
     socket.on('update', producto => {
       console.log(producto);
-      console.log("Hola")
         productosApi.save(producto)
         io.sockets.emit('productos', productosApi.getAll());
     })    

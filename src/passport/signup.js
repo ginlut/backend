@@ -1,6 +1,8 @@
 const LocalStrategy   = require('passport-local').Strategy;
-const User =require( '../databases/models/usuario.js');
+const User =require( '../utils/databases/models/usuario.js');
 const bCrypt  =require( 'bcrypt');
+const transporter = require("../nodemailer")
+require("dotenv").config();
 
 module.exports = function (passport){
 
@@ -27,8 +29,32 @@ module.exports = function (passport){
                                 phone: req.body.phone,
                                 avatar:`http://localhost:8080/image/${req.file.filename}`,  
                             };
+                            const mailOptions = {
+                                from: "Servidor Node",
+                                to: "eryn57@ethereal.email",
+                                subject: "Nuevo registro",
+                                html: `<h1>Nuevo usuario:</h1>
+                                <h2>Email: ${newUser.username}</h2>
+                                <h2>Nombre: ${newUser.name}</h2>
+                                <h2>Dirección: ${newUser.address}</h2>
+                                <h2>Edad: ${newUser.age}</h2>
+                                <h2>Telf: ${newUser.phone}</h2>
+                                <h2>Avatar: ${newUser.avatar}</h2>`,
+                              };
+                              
+                              async function enviarInfo() {
+                                const info = await transporter.sendMail(mailOptions);
+                                console.log(info);
+                              }
+                              try {
+                                enviarInfo()
+                              } catch (error) {
+                                console.log(error);
+                              } 
                             const createdUser = User.create(newUser);
                             return done(null, createdUser);
+
+                            
                         }
                 }).clone()    
             } catch (err) {

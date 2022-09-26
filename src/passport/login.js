@@ -1,5 +1,5 @@
 let LocalStrategy   = require('passport-local').Strategy;
-let User = require('../databases/models/usuario.js');
+let User = require('../utils/databases/models/usuario');
 let bCrypt = require('bcrypt');
 
 //Estrategia de Login/acceso

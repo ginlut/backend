@@ -1,6 +1,3 @@
-const config = require("../databases/config");
-const mongoose = require('mongoose')
-
 class Productos {
     constructor(modelo) {
       this.collection = modelo;
@@ -8,7 +5,7 @@ class Productos {
     
     getAll = async () => {
         try {
-            const allProducts = await this.collection.find()
+            const allProducts = await this.collection.find().lean()
             return allProducts   
         } catch (error) {
             return []

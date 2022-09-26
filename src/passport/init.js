@@ -1,6 +1,6 @@
 const login =require( './login.js');
 const signup =require( './signup.js');
-const User = require ('../databases/models/usuario');
+const User = require ('../utils/databases/models/usuario');
 
 module.exports = function(passport){
 
