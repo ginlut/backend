@@ -58,10 +58,12 @@ class ContenedorMongoDbCarrito {
     
 
     addProductToCart = async(cartId, product) =>{
+        //console.log(cartId)
         let cart = await this.getById(cartId)
+        //console.log(cart)
         if(product.id !== undefined) {
             try{
-            const productos = cart.productos
+            let productos = cart.productos
             productos.push(product)
             const addProduct = await this.collection.findById(cartId).updateOne({productos: productos});
             return addProduct
@@ -73,7 +75,7 @@ class ContenedorMongoDbCarrito {
     removeProductFromCart = async(cartId, productId) =>{
         let cart = await this.getById(cartId)
             try{
-            const productos = cart.productos
+            let productos = cart.productos
             const index = productos.findIndex((prod)=> prod._id == productId)
             if (index > -1) {
                 productos.splice(index, 1);
@@ -84,15 +86,16 @@ class ContenedorMongoDbCarrito {
                     throw new Error(`Error al modificar: ${error}`)
         }
     }
-    buyCart = async (username) => {
-        let cart = await this.collection.findOne({username: username})
+    buyCart = async (user) => {
+        let cart = await this.collection.findOne({username: user.username})
         try{
-            const order = cart.productos
-            await sendNewOrder(order, username)
-            await sendWhatsApp(order, username)
-            await cart.updateOne({ $set: { productos: [] } })
-            //console.log(productos)
+            const orderArray = cart.productos
+            const order = JSON.stringify(orderArray);
+            await sendNewOrder(order, user)
+            await sendWhatsApp(order, user)
+            //await cart.updateOne({ $set: { productos: [] } })
         }catch (error) {
+            throw new Error(`${error}`)
         }
     }
     

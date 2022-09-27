@@ -10,6 +10,7 @@ router.use(compression())
 const upload = require ('../src/multer/multer')
 const logger = require('../src/utils/logger')
 const cartModel = require('../src/utils/databases/models/carrito')
+const userModel = require('../src/utils/databases/models/usuario')
 
 
 module.exports = function(passport){
@@ -128,7 +129,14 @@ router.get('/api/productos', async function (req, res) {
   router.get("/carrito", async (req, res)  => {
     if(req.isAuthenticated()){
       try {
-        const cart = await cartModel.findOne({ username: req.username })
+        let cart = await cartModel.findOne({ username: req.user.username })
+        if (!cart) {
+          cart = new cartModel({
+            username: req.user.username,
+            products: [],
+          })
+          cart.save()
+        }
         const productsInCart = cart.productos
         let valorInicial= 0
         const total = productsInCart.reduce((sum, product) => sum + product.precio, valorInicial)
@@ -143,9 +151,10 @@ router.get('/api/productos', async function (req, res) {
   router.post('/api/carrito/addProductos', async function(req, res){
     const user = req.user
     const product = await productosApi.getById(req.body.productId)
-    const cart = await cartModel.findOne({ username: req.username })
+    let cart = await cartModel.findOne({ username: req.user.username })
+    console.log(cart)
     if (!cart) {
-      cart = new Cart({
+      cart = new cartModel({
         username: user.username,
         products: [],
       })
@@ -157,7 +166,7 @@ router.get('/api/productos', async function (req, res) {
   router.post('/api/carrito/deleteproductos/:id_prod', async function(req, res) {
     if(req.isAuthenticated()){
       try {
-        const cart = await cartModel.findOne({ username: req.username })
+        const cart = await cartModel.findOne({ username: req.user.username })
         const productos = cart.productos
         const index = productos.findIndex((prod)=> prod._id == req.params.id_prod)
             if (index > -1) {
@@ -173,7 +182,8 @@ router.get('/api/productos', async function (req, res) {
   router.post('/api/carrito/buyCarrito', async function(req, res){
     if(req.isAuthenticated()){
       try {
-      await carritosApi.buyCart(req.username)
+      const usuario = await userModel.findOne({email: req.username})
+      await carritosApi.buyCart(usuario)
       res.redirect('/api/productos');
       }
       catch (error) {
