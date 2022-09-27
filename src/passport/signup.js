@@ -26,7 +26,7 @@ module.exports = function (passport){
                                 address: req.body.address,
                                 age: req.body.age,
                                 phone: req.body.phone,
-                                avatar:`http://localhost:8080/image/${req.file.filename}`,  
+                                avatar:`http://localhost:8080/uploads/${req.file.filename}`,  
                             };
                             const mailOptions = {
                                 from: "Servidor Node",
