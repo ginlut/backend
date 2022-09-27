@@ -31,7 +31,7 @@
                         <td><img src={{this.foto}} alt="image" class="img"></td>
                     </tr>
                     <td>
-                        <form action="/cart/{{_id}}">
+                        <form action="/api/carrito/deleteproductos/{{_id}}" method="POST">
                             <button type="submit" class="btn btn-danger" > Eliminar </button>
                         </form>
                     </td>

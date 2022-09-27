@@ -9,6 +9,7 @@ const compression = require('compression')
 router.use(compression())
 const upload = require ('../src/multer/multer')
 const logger = require('../src/utils/logger')
+const cartModel = require('../src/utils/databases/models/carrito')
 
 
 module.exports = function(passport){
@@ -60,7 +61,7 @@ module.exports = function(passport){
   
   
   router.post('/signup',upload.single('myFile'),passport.authenticate('signup',{ failureRedirect: '/failedSignup',failureMessage: true}),(req, res)=>{
-    console.log('req- metodo post-login',req.body)   
+    //console.log('req- metodo post-login',req.body)   
     res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))
   })
   
@@ -86,32 +87,8 @@ module.exports = function(passport){
         res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))}
   })
 
-router.get("/api/productos", async (req, res)  => { 
-  if(req.isAuthenticated()){
-    try {
-      const products = await productosApi.getAll()
-      res.render('products', { products })
-    } catch (error) {
-    // logger.warn('error', error)
-      res.status(404).json({ message: error.message })}
-   }
-  else{
-    res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))} 
 
-})
 
-router.get("/cart", async (req, res)  => {
-  if(req.isAuthenticated()){
-    try {
-      const cart = await carritosApi.getAll()
-      res.render('cart', { cart })
-    } catch (error) {
-    // logger.warn('error', error)
-      res.status(404).json({ message: error.message })
-    }
-  }  else{
-      res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))}   
-  })
 
 
   /*----------------------PRODUCTOS-------------------------- */
@@ -148,26 +125,50 @@ router.get('/api/productos', async function (req, res) {
 
   /*----------------------CARRITO-------------------------- */
 
-  router.post('/api/carrito', async function (req, res) {
-    res.json(await carritosApi.save(req.body))
-  })
+  router.get("/carrito", async (req, res)  => {
+    if(req.isAuthenticated()){
+      try {
+        const cart = await cartModel.findOne({ username: req.username })
+        const productsInCart = cart.productos
+        let valorInicial= 0
+        const total = productsInCart.reduce((sum, product) => sum + product.precio, valorInicial)
+        res.render('cart', { productos: productsInCart, total: total })
+      } catch (error) {
+        res.status(404).json({ message: error.message })
+      }
+    }  else{
+        res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))}   
+    })
   
-  router.delete('/api/carrito/:id', async function (req, res) {
-    res.json(await carritosApi.deleteById(req.params.id))     
-  })
-  
-  router.get('/api/carrito/:id/productos', async function (req, res){
-    res.json(await carritosApi.getProductsByCartId(req.params.id))
-  })
-  
-  router.post('/api/carrito/:id/productos', async function(req, res){
+  router.post('/api/carrito/addProductos', async function(req, res){
+    const user = req.user
     const product = await productosApi.getById(req.body.productId)
-    res.json(await carritosApi.addProductToCart(req.params.id, product))
+    const cart = await cartModel.findOne({ username: req.username })
+    if (!cart) {
+      cart = new Cart({
+        username: user.username,
+        products: [],
+      })
+      cart.save()
+    }
+    (await carritosApi.addProductToCart(cart.id, product))
   })
   
-  router.delete('/api/carrito/:id/productos/:id_prod', async function(req, res) {
-    res.json(await carritosApi.removeProductFromCart(req.params.id, req.params.id_prod))     
-  })
+  router.post('/api/carrito/deleteproductos/:id_prod', async function(req, res) {
+    if(req.isAuthenticated()){
+      try {
+        const cart = await cartModel.findOne({ username: req.username })
+        const productos = cart.productos
+        const index = productos.findIndex((prod)=> prod._id == req.params.id_prod)
+            if (index > -1) {
+                productos.splice(index, 1);
+            }
+            const updatedCart = await cart.updateOne({productos: productos});
+            res.redirect('/carrito');
+      } catch (error) {
+        res.status(404).json({ message: error.message })
+      }
+  }})
 
   
   return router;

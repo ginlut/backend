@@ -4,7 +4,6 @@ class ContenedorMongoDbCarrito {
     constructor(modelo) {
       this.collection = modelo
     }
-
     getAll = async () => {
         try {
             const allCarts = await this.collection.find()
@@ -18,16 +17,26 @@ class ContenedorMongoDbCarrito {
         const carts = await this.collection.findById(id);
         return carts || { error: 'carrito no encontrado' }
     }
-
     getProductsByCartId = async(cartId) =>{
-        const cart = await this.getById(cartId)
-        return cart.productos || { error: 'carrito no encontrado' }
+        try {
+            const user = req.user
+            const cart = await cartModel.findOne({ username: req.username })
+            if (!cart) {
+              cart = new Cart({
+                username: user.username,
+                products: [],
+              })
+              cart.save()
+            }
+          } catch (error) {
+            logger.info('error', error)
+            res.status(404).json({ message: error.message })
+          }
     }
 
 
     save = async(carrito) => {
         try {
-            carrito.timestamp = Date.now()
             carrito.productos = []
             let cart = new this.collection(carrito).save()
             return cart
@@ -52,14 +61,13 @@ class ContenedorMongoDbCarrito {
         let cart = await this.getById(cartId)
         if(product.id !== undefined) {
             try{
-            console.log(cart)
             const productos = cart.productos
             productos.push(product)
             const addProduct = await this.collection.findById(cartId).updateOne({productos: productos});
             return addProduct
                 } catch (error) {
                     throw new Error(`Error al modificar: ${error}`)
-        }}
+        }} 
 
     }
     removeProductFromCart = async(cartId, productId) =>{
@@ -82,9 +90,11 @@ class ContenedorMongoDbCarrito {
             const order = cart.products
             await sendNewOrder(order, user)
             await sendWhatsApp(order, user)
+            await cart.updateOne({ $set: { products: [] } })
         }catch (error) {
         }
     }
+    
 }
 
 module.exports =  ContenedorMongoDbCarrito

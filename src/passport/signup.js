@@ -10,7 +10,6 @@ module.exports = function (passport){
             passReqToCallback : true 
         },
         async (req, username, password, done)=> {
-            console.log('Hola')
             try {
                 const existingUser = User.findOne({ 'username' :  username }, 
                     (err, user)=> {
@@ -44,12 +43,12 @@ module.exports = function (passport){
                               
                               async function enviarInfo() {
                                 const info = await transporter.sendMail(mailOptions);
-                                console.log(info);
+                        
                               }
                               try {
                                 enviarInfo()
                               } catch (error) {
-                                console.log(error);
+                          
                               } 
                             const createdUser = User.create(newUser);
                             return done(null, createdUser);

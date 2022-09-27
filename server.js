@@ -99,7 +99,6 @@ io.on('connection', async socket => {
     socket.emit( 'productos', await productosApi.getAll());
 
     socket.on('update', producto => {
-      console.log(producto);
         productosApi.save(producto)
         io.sockets.emit('productos', productosApi.getAll());
     })    

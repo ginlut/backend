@@ -34,10 +34,9 @@ function tableProducts(productos) {
 
 /*-----------------------------------*/
 
-const logout = document.querySelector("#desloguear")
+// const logout = document.querySelector("#desloguear")
 
-logout.addEventListener('click', ()=>{
-    console.log("bye")
-    location.href = '/logout'
-});
+// logout.addEventListener('click', ()=>{
+//     location.href = '/logout'
+// });
 

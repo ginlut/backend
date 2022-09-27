@@ -19,7 +19,6 @@ class Productos {
 
     save = async(producto) => {
         try {
-            producto.timestamp = Date.now()
             let product = new this.collection(producto).save()
             return product
         } catch (error) {
