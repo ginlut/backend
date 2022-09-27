@@ -40,8 +40,8 @@
             </div>
     </div>
         <h3>Total: {{total}}</h3>
-    <form>
-        <button type="submit" class="btn btn-success" onclick="buyCart()">Comprar</button>
+    <form action="/api/carrito/buyCarrito" method="POST">
+        <button type="submit" class="btn btn-success">Comprar</button>
     </form>
 </div>
     

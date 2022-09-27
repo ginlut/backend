@@ -84,13 +84,14 @@ class ContenedorMongoDbCarrito {
                     throw new Error(`Error al modificar: ${error}`)
         }
     }
-    buyCart = async (cartId) => {
-        let cart = await this.getById(cartId)
+    buyCart = async (username) => {
+        let cart = await this.collection.findOne({username: username})
         try{
-            const order = cart.products
-            await sendNewOrder(order, user)
-            await sendWhatsApp(order, user)
-            await cart.updateOne({ $set: { products: [] } })
+            const order = cart.productos
+            await sendNewOrder(order, username)
+            await sendWhatsApp(order, username)
+            await cart.updateOne({ $set: { productos: [] } })
+            //console.log(productos)
         }catch (error) {
         }
     }

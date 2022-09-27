@@ -170,6 +170,17 @@ router.get('/api/productos', async function (req, res) {
       }
   }})
 
+  router.post('/api/carrito/buyCarrito', async function(req, res){
+    if(req.isAuthenticated()){
+      try {
+      await carritosApi.buyCart(req.username)
+      res.redirect('/api/productos');
+      }
+      catch (error) {
+      res.status(404).json({ message: error.message })
+    }
+  }})
+
   
   return router;
   }
