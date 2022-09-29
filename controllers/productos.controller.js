@@ -1,4 +1,4 @@
-class Productos {
+class ContenedorProductos {
     constructor(modelo) {
       this.collection = modelo;
     }
@@ -52,4 +52,4 @@ class Productos {
 
 
 
-module.exports =  Productos
+module.exports =  ContenedorProductos

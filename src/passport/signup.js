@@ -1,5 +1,5 @@
 const LocalStrategy   = require('passport-local').Strategy;
-const User =require( '../utils/databases/models/usuario.js');
+const User =require( '../utils/databases/models/usuario.model.js');
 const bCrypt  =require( 'bcrypt');
 const transporter = require("../nodemailer")
 require("dotenv").config();

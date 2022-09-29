@@ -1,6 +1,6 @@
-const { sendNewOrder, sendWhatsApp }=require('../src/twilio')
+const {sendWhatsApp }=require('../src/twilio')
 
-class ContenedorMongoDbCarrito {
+class ContenedorCarrito {
     constructor(modelo) {
       this.collection = modelo
     }
@@ -58,9 +58,7 @@ class ContenedorMongoDbCarrito {
     
 
     addProductToCart = async(cartId, product) =>{
-        //console.log(cartId)
         let cart = await this.getById(cartId)
-        //console.log(cart)
         if(product.id !== undefined) {
             try{
             let productos = cart.productos
@@ -91,9 +89,8 @@ class ContenedorMongoDbCarrito {
         try{
             const orderArray = cart.productos
             const order = JSON.stringify(orderArray);
-            await sendNewOrder(order, user)
             await sendWhatsApp(order, user)
-            //await cart.updateOne({ $set: { productos: [] } })
+            await cart.updateOne({ $set: { productos: [] } })
         }catch (error) {
             throw new Error(`${error}`)
         }
@@ -101,4 +98,4 @@ class ContenedorMongoDbCarrito {
     
 }
 
-module.exports =  ContenedorMongoDbCarrito
+module.exports =  ContenedorCarrito

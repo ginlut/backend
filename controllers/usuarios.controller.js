@@ -1,6 +1,6 @@
 const logger =require("../src/utils/logger")
 
-const getUser = async (req, res) => {
+const ContenedorUsuarios = async (req, res) => {
   try {
     const user = req.user
     res.render('user', { user })
@@ -10,4 +10,4 @@ const getUser = async (req, res) => {
   }
 }
 
-module.exports = getUser
+module.exports = ContenedorUsuarios

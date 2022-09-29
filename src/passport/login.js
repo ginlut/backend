@@ -1,12 +1,11 @@
 let LocalStrategy   = require('passport-local').Strategy;
-let User = require('../utils/databases/models/usuario');
+let User = require('../utils/databases/models/usuario.model');
 let bCrypt = require('bcrypt');
 
-//Estrategia de Login/acceso
 module.exports= function (passport){
 
 	passport.use('login', new LocalStrategy({
-        passReqToCallback : true //nos permite acceder al objeto request
+        passReqToCallback : true
         },
         async (req, username, password, done) => {
         try { 
@@ -23,7 +22,6 @@ module.exports= function (passport){
         })
     );
 
-   //Desencriptar Password (cifrado)
     function isValidPassword (user, password){
         return bCrypt.compareSync(password, user.password);
     }

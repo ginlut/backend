@@ -31,12 +31,3 @@ function tableProducts(productos) {
             return html
         })
 }
-
-/*-----------------------------------*/
-
-// const logout = document.querySelector("#desloguear")
-
-// logout.addEventListener('click', ()=>{
-//     location.href = '/logout'
-// });
-

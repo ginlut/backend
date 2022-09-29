@@ -1,6 +1,5 @@
-const Productos= require('../../../../api/productos');
-const connectMongoDbProduct = require("../mongoDb");
-const productModel = require('../models/producto')
+const Productos= require('../../../../controllers/productos.controller');
+const productModel = require('../models/producto.model')
 const productosApi = new Productos(productModel)
 
 

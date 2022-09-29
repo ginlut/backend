@@ -22,7 +22,7 @@
     <div class='card-body'>
       <h5 class='card-title'>{{nombre}}</h5>
       <p class='card-text'>Precio: ${{precio}}</p>
-      <form action='/api/carrito/addProductos' method='POST'>
+      <form action='/carrito/addProductos' method='POST'>
         <input type='hidden' name='productId' value='{{_id}}' /> 
         <button type='submit' class='btn btn-dark'>Agregar al carrito</button>
       </form>
@@ -31,7 +31,7 @@
 {{/each}}
 </div>
 
-<script src="././../../api/carritos.js"></script>
+<script src="././../../controllers/carritos.js"></script>
 </body>
 </html>
 

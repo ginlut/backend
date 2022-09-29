@@ -1,6 +1,5 @@
-const Carritos= require('../../../../api/carritos');
-const connectMongoDbCarrito = require("../mongoDb");
-const cartModel = require('../models/carrito')
+const Carritos= require('../../../../controllers/carritos.controller');
+const cartModel = require('../models/carrito.model')
 const carritosApi = new Carritos(cartModel)
 
 

@@ -14,7 +14,7 @@ const {productosApi} = require("./src/utils/databases/daos/ProductosDaoMongoDb")
 const {carritossApi} = require("./src/utils/databases/daos/CarritosDaoMongoDb");
 const passport = require("passport");
 const initPassport = require( './src/passport/init')
-const routes = require('./routes/routes')(passport)
+const routes = require('./routes/routes')
 const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -83,7 +83,7 @@ if (isCluster && cluster.isPrimary) {
 } else{
   app.use('/', routes) 
   const connectedServer = httpServer.listen(process.env.PORT || 8080, () => {
-    logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
+    logger.warn(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
 })
 connectedServer.on('error', error => logger.fatal(`Error en servidor ${error}`))
 }
@@ -92,7 +92,6 @@ connectedServer.on('error', error => logger.fatal(`Error en servidor ${error}`))
 /*------------- SOCKET.IO-----------------------*/
 
 io.on('connection', async socket => {
-   // console.log('Se ha  un nuevo usuario');
 
     //Tabla de productos introducidos
 

@@ -8,20 +8,6 @@ const toNumber = +56982221548;
 const client = twilio(accountSid, authToken);
 
 
-const sendNewOrder = async (order, user) => {
-  try {
-    const option = {
-      to: toNumber,
-      from: +14155238886,
-      body: `Se ha realizado un nuevo pedido por el usuario ${user.name}, con el email: ${user.username} y el teléfono: ${user.phone} con el siguiente detalle: ${order}`,
-    }
-    const message = await client.messages.create(option)
-
-  } catch (error) {
-    logger.warn('error', error)
-  }
-}
-
 const sendWhatsApp = async (order, user) => {
   try {
     client.messages 
@@ -37,4 +23,4 @@ const sendWhatsApp = async (order, user) => {
   }
 }
 
-module.exports ={sendNewOrder,sendWhatsApp}
+module.exports ={sendWhatsApp}
