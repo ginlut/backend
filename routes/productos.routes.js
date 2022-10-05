@@ -1,43 +1,20 @@
 const { Router, express } = require('express');
-const {productosApi} = require("../src/utils/databases/daos/ProductosDaoMongoDb");
+const {productosApi} = require("../src/utils/databases/daos/index.daos");
 const path = require("path");
 const router = Router()
-const { login, auth, checkAuth } = require("../src/middlewares")
+const { auth} = require("../src/middlewares")
 const util = require("util");
+const DaoFactory =require("../src/utils/databases/daos/daoFactory")
 const compression = require('compression')
 router.use(compression())
+const daoFactory = new DaoFactory();
+const productDao = daoFactory.createDao();
 
 
 
-router.get('/', async function (req, res) {
-  if(req.isAuthenticated()){
-    try {
-      const products = await productosApi.getAll()
-      res.render('products', { products })
-    } catch (error) {
-      logger.error(`No estás autenticado: ${error}`)}
-    }
-  else{
-    res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))}   
-})
+router.route("/").get(productDao.getAll).post(productDao.createProduct)
 
-router.get('/:id', async function (req, res) {
-  res.json(await productosApi.getById(req.params.id))
-})
-
-router.post('/', async function(req, res) {
-  res.json(await productosApi.save(req.body))
-})
-
-
-router.put('/:id', async function (req, res) {
-  res.json(await productosApi.updateProducts(req.body, req.params.id))
-})
-
-
-router.delete('/:id', async function (req, res) {
-  res.json(await productosApi.deleteById(req.params.id))
-})
+router.route('/:id').get(productDao.getById).put(productDao.updateProducts).delete(productDao.deleteById)
 
 module.exports = router;
   

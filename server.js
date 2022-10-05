@@ -10,8 +10,7 @@ const os = require("os");
 const cluster = require("cluster");
 const cpus = os.cpus();
 const isCluster = process.argv[3] == "cluster";
-const {productosApi} = require("./src/utils/databases/daos/ProductosDaoMongoDb");
-const {carritossApi} = require("./src/utils/databases/daos/CarritosDaoMongoDb");
+const {productosApi, carritossApi} = require("./src/utils/databases/daos/index.daos");
 const passport = require("passport");
 const initPassport = require( './src/passport/init')
 const routes = require('./routes/routes')
@@ -20,7 +19,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const mongoose = require( "mongoose")
 const { fork } = require("child_process");
-const logger = require("./src/utils/logger")
+const logger = require("./src/utils/logs/logger")
 const path = require("path")
 
 
@@ -83,7 +82,7 @@ if (isCluster && cluster.isPrimary) {
 } else{
   app.use('/', routes) 
   const connectedServer = httpServer.listen(process.env.PORT || 8080, () => {
-    logger.warn(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
+    logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
 })
 connectedServer.on('error', error => logger.fatal(`Error en servidor ${error}`))
 }

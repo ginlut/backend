@@ -1,55 +1,29 @@
-class ContenedorProductos {
-    constructor(modelo) {
-      this.collection = modelo;
-    }
-    
-    getAll = async () => {
-        try {
-            const allProducts = await this.collection.find().lean()
-            return allProducts   
-        } catch (error) {
-            return []
-        }
+const ProductMongoDAO =require("../src/utils/databases/daos/productMongo.dao")
+const Product = new ProductMongoDAO()
 
-    }
-    getById = async(id) => {
-        const doc = await this.collection.findById(id);
-        return doc || { error: 'producto no encontrado' }
-    }
-
-    save = async(producto) => {
-        try {
-            let product = new this.collection(producto).save()
-            return product
-        } catch (error) {
-            throw new Error(`Error al guardar: ${error}`)
-        }
+const getAll = async () => {
+    try {
+        const products = await Product.getAll()
+        res.render('products', { products })
+      } catch (error) {
+        logger.error(`No estás autenticado: ${error}`)}
     }
 
 
-
-    updateProducts = async(product, id) => {
-            try {
-                const document = this.collection.findById(id);
-                const updatedProduct = await document.updateOne(product);
-                return updatedProduct
-            } catch (error) {
-                throw new Error(`Error al modificar: ${error}`)
-            }
-    
-    }
-    
-    deleteById = async(id)  =>{
-        try {
-            const document = this.collection.findById(id);
-            const deleteProduct = await document.deleteOne();
-            return deleteProduct
-        } catch (error) {
-            throw new Error(`Error al modificar: ${error}`)
-        }
-    } 
+const getById = async () => {
+    res.json(await Product.getById(req.params.id))
 }
 
+const createProduct = async () => {
+    res.json(await Product.createProduct(req.body))
+}
 
+const updateProducts = async () => {
+    res.json(await Product.updateProducts(req.body, req.params.id))
+}
 
-module.exports =  ContenedorProductos
+const deleteProducts = async () => {
+    res.json(await productosApi.deleteById(req.params.id))
+}
+
+module.exports =  {getAll, getById, createProduct, updateProducts, deleteProducts}
