@@ -5,7 +5,7 @@ const productDao = daoFactory.createDao();
 const {carritosApi} = require("../src/utils/databases/daos/index.daos");
 const path = require("path");
 const router = Router()
-const { login, auth, checkAuth } = require("../src/middlewares")
+const { auth} = require("../src/middlewares")
 const util = require("util");
 const compression = require('compression')
 router.use(compression())
@@ -16,8 +16,7 @@ const passport = require ('passport')
 
 
 
-router.get("/", async (req, res)  => {
-  if(req.isAuthenticated()){
+router.get("/", auth, async (req, res)  => {
     try {
       let cart = await cartModel.findOne({ username: req.user.username })
       if (!cart) {
@@ -34,9 +33,7 @@ router.get("/", async (req, res)  => {
     } catch (error) {
       logger.error(`No estás autenticado, por favoor ingresa tus datos`)
     }
-  }  else{
-      res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))}   
-})
+  } )
   
 
 router.post('/addProductos', async function(req, res){
@@ -53,8 +50,7 @@ router.post('/addProductos', async function(req, res){
   (await carritosApi.addProductToCart(cart.id, product))
 })
 
-router.post('/deleteproductos/:id_prod', async function(req, res) {
-  if(req.isAuthenticated()){
+router.post('/deleteproductos/:id_prod', auth, async function(req, res) {
     try {
       const cart = await cartModel.findOne({ username: req.user.username })
       const productos = cart.productos
@@ -67,10 +63,9 @@ router.post('/deleteproductos/:id_prod', async function(req, res) {
     } catch (error) {
       logger.error(`No se ha encontrado el producto`)
     }
-}})
+})
 
-router.post('/buyCarrito', async function(req, res){
-  if(req.isAuthenticated()){
+router.post('/buyCarrito', auth, async function(req, res){
     try {
     const usuario = await userModel.findOne({email: req.username})
     await carritosApi.buyCart(usuario)
@@ -79,7 +74,7 @@ router.post('/buyCarrito', async function(req, res){
     catch (error) {
       logger.error(`${error}`)
   }
-}})
+})
 
 
 module.exports = router;

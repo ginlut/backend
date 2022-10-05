@@ -1,29 +1,35 @@
 const ProductMongoDAO =require("../src/utils/databases/daos/productMongo.dao")
-const Product = new ProductMongoDAO()
+const DaoFactory =require("../src/utils/databases/daos/daoFactory")
+const daoFactory = new DaoFactory();
+const Product = daoFactory.createDao();
+const logger = require("../src/utils/logs/logger")
+
 
 const getAll = async () => {
     try {
+        console.log("Hola3")
         const products = await Product.getAll()
-        res.render('products', { products })
-      } catch (error) {
+        return products
+    } catch (error) {
+        console.log(error)
         logger.error(`No estás autenticado: ${error}`)}
-    }
+}
 
 
 const getById = async () => {
     res.json(await Product.getById(req.params.id))
 }
 
-const createProduct = async () => {
-    res.json(await Product.createProduct(req.body))
+const createProduct = async (product) => {
+    return await Product.createProduct(product)
 }
 
-const updateProducts = async () => {
-    res.json(await Product.updateProducts(req.body, req.params.id))
+const updateProducts = async (product, productID) => {
+    return await Product.updateProducts(product, productID)
 }
 
-const deleteProducts = async () => {
-    res.json(await productosApi.deleteById(req.params.id))
+const deleteById = async (productID) => {
+    return await Product.deleteById(productID)
 }
 
-module.exports =  {getAll, getById, createProduct, updateProducts, deleteProducts}
+module.exports =  {getAll, getById, createProduct, updateProducts, deleteById}

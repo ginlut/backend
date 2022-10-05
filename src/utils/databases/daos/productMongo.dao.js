@@ -5,21 +5,21 @@ const CustomError = require("../../CustomError")
 let instance;
 
 class ProductMongoDAO {
-  constructor(modelo) {
-    this.collection = modelo;
+  constructor() {
+    this.collection = Product;
   }
-
-  async getAll() {
+ 
+  getAll = async() => {
     try {
       const products = await this.collection.find().lean();
-
       return products;
     } catch (err) {
+      console.log(err)
       return []
     }
   }
 
-  async createProduct(newProduct) {
+    createProduct = async(newProduct) => {
     try {
       const createdProduct = await this.collection.create(newProduct);
 
@@ -46,7 +46,7 @@ class ProductMongoDAO {
     }
 
 }
-
+ 
 deleteById = async(id)  =>{
 try {
     const document = this.collection.findById(id);

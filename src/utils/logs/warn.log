@@ -1,1 +1,2 @@
 {"level":"warn","message":"Servidor http escuchando en el puerto 8080 - PID 11648"}
+{"level":"error","message":"No estás autenticado: TypeError: Cannot read properties of undefined (reading 'render')"}

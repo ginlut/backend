@@ -1,3 +1,5 @@
+const path = require("path");
+
 function auth(req, res, next) {
   if (req.isAuthenticated()) {
     next()
