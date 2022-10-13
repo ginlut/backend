@@ -10,7 +10,7 @@ const os = require("os");
 const cluster = require("cluster");
 const cpus = os.cpus();
 const isCluster = process.argv[3] == "cluster";
-const {productosApi, carritossApi} = require("./src/utils/databases/daos/index.daos");
+const {productosApi, carritossApi} = require("./src/utils/databases/services/index.daos");
 const passport = require("passport");
 const initPassport = require( './src/passport/init')
 const routes = require('./routes/routes')
@@ -84,7 +84,7 @@ if (isCluster && cluster.isPrimary) {
   const connectedServer = httpServer.listen(process.env.PORT || 8080, () => {
     logger.info(`Servidor http escuchando en el puerto ${connectedServer.address().port} - PID ${process.pid}`)
 })
-connectedServer.on('error', error => logger.fatal(`Error en servidor ${error}`))
+connectedServer.on('error', error => logger.error(`Error en servidor ${error}`))
 }
 
 

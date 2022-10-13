@@ -1,35 +1,32 @@
-const ProductMongoDAO =require("../src/utils/databases/daos/productMongo.dao")
-const DaoFactory =require("../src/utils/databases/daos/daoFactory")
-const daoFactory = new DaoFactory();
-const Product = daoFactory.createDao();
+const {DaoFactoryProduct} =require("../src/utils/databases/services/daoFactory")
+const daoFactoryProduct = new DaoFactoryProduct();
+const Product = daoFactoryProduct.createDao();
 const logger = require("../src/utils/logs/logger")
-
-
-const getAll = async () => {
+ 
+class ProductsController {
+    async getAll(req, res) {
     try {
-        console.log("Hola3")
         const products = await Product.getAll()
-        return products
+        res.render('products', { products })
     } catch (error) {
-        console.log(error)
         logger.error(`No estás autenticado: ${error}`)}
+    }
+
+    async getById(req, res) {
+        res.json(await getById(req.params.id))
+    }
+
+    async createProduct(req, res)  {
+        res.json(await createProduct(req.body))
+    }
+
+    async updateProducts(req, res) {
+        res.json(await updateProducts(req.body, req.params.id))
 }
 
-
-const getById = async () => {
-    res.json(await Product.getById(req.params.id))
+    async deleteById(req, res) {
+        res.json(await deleteById(req.params.id))
+}
 }
 
-const createProduct = async (product) => {
-    return await Product.createProduct(product)
-}
-
-const updateProducts = async (product, productID) => {
-    return await Product.updateProducts(product, productID)
-}
-
-const deleteById = async (productID) => {
-    return await Product.deleteById(productID)
-}
-
-module.exports =  {getAll, getById, createProduct, updateProducts, deleteById}
+module.exports =  ProductsController

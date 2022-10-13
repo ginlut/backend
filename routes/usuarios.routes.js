@@ -4,47 +4,39 @@ const router = Router()
 const { auth} = require("../src/middlewares")
 const compression = require('compression')
 router.use(compression())
+const UsersController =require("../controllers/usuarios.controller")
 const passport = require ('passport') 
 const upload = require ('../src/multer/multer')
 
+class RouterUsers{
+  constructor() {
+    this.controller = new UsersController();
+  }
 
-router.get("/micuenta", auth, (req, res)=>{
-      res.render('user', { user: req.user })
-      })
+  start() {
+  router.get("/micuenta", auth, this.controller.getAcount);
 
-  router.get("/login", auth, (req, res) => {
-      res.redirect('/')
-      });
-  
+  router.get("/login", auth, this.controller.home);
+
   router.post('/login',passport.authenticate('login',
-    {failureRedirect: '/failedLogin',failureMessage: true}),
-    (req, res)=>{
-        res.redirect('/')
-      })
-  
-  router.get('/failedLogin',(req, res)=>{
-    res.sendFile(path.join(__dirname, "../public/plantillas/faillogin.html"));
-  })
-  
-  router.get("/signup", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/plantillas/signup.html"));
-  });
-  
-  router.post('/signup',upload.single('myFile'),passport.authenticate('signup',{ failureRedirect: '/failedSignup',failureMessage: true}),(req, res)=>{ 
-    res.sendFile(path.join(__dirname, "../public/plantillas/login.html"))
-  })
-  
-  ///FAIL SIGNUP
+    {failureRedirect: '/failedLogin',failureMessage: true}), this.controller.home);
+
+  router.get('/failedLogin', this.controller.failedLogin);  
+
+  router.get("/signup", this.controller.signup);  
+
+  router.post('/signup',upload.single('myFile'),passport.authenticate('signup',{ failureRedirect: '/failedSignup',failureMessage: true}),this.controller.home); 
+   
   router.get('/failedSignup',(req, res)=>{
   res.sendFile(path.join(__dirname, "../public/plantillas/failedSignup.html"));
   })
   
-  router.get('/logout', function(req, res, next) {
-    req.logout(function(err) {
-      if (err) {     console.log(err); return next(err); }
-    });
-    res.redirect('/');
-  })  
+  router.get('/logout', this.controller.logout) 
+  
+  return router;
+  }
 
-  module.exports = router;
+}
+
+  module.exports = RouterUsers;
   

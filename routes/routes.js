@@ -1,25 +1,24 @@
 const { Router, express } = require('express');
-const path = require("path");
 const router = Router()
-const util = require("util");
 const compression = require('compression')
 router.use(compression()) 
-const usuarioRouter = require('./usuarios.routes')
-const carritoRouter = require('./carrito.routes')
-const productosRouter = require('./productos.routes')
 
-  router.use("/usuarios", usuarioRouter)
-  router.use("/carrito", carritoRouter)
-  router.use("/productos", productosRouter)
+const RouterUsers = require('./usuarios.routes')
+const usuarioRouter = new RouterUsers()
 
-  router.get("/", (req, res) => {
-    if(req.isAuthenticated()){
+const RouterCart = require('./carrito.routes')
+const carritoRouter = new RouterCart()
+
+const RouterProducts = require('./productos.routes')
+const productosRouter = new RouterProducts()
+const { auth} = require("../src/middlewares")
+
+  router.use("/usuarios", usuarioRouter.start())
+  router.use("/carrito", carritoRouter.start())
+  router.use("/productos", productosRouter.start())
+  router.get("/", auth,(req, res) => {
       res.redirect('/productos')
-      //res.render("home", {username: req.user.username, avatar: req.user.avatar});
-    }else{
-      res.sendFile(path.join(__dirname, "../public/plantillas/login.html")); 
-    }}
-  );
+  });
 
   
   module.exports = router;

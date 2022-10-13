@@ -1,101 +1,52 @@
-const {sendWhatsApp }=require('../src/twilio')
+const {DaoFactoryCart, DaoFactoryProduct} =require("../src/utils/databases/services/daoFactory")
+const daoFactoryCart = new DaoFactoryCart();
+const Cart = daoFactoryCart.createDao();
 
-class ContenedorCarrito {
-    constructor(modelo) {
-      this.collection = modelo
-    }
-    getAll = async () => {
-        try {
-            const allCarts = await this.collection.find()
-            return allCarts   
-        } catch (error) {
-            return []
-        }
-    }
+const daoFactoryProduct = new DaoFactoryProduct();
+const Product = daoFactoryProduct.createDao();
+const logger = require("../src/utils/logs/logger")
 
-    getById = async(id) => {
-        const carts = await this.collection.findById(id);
-        return carts || { error: 'carrito no encontrado' }
-    }
-    getProductsByCartId = async(cartId) =>{
+const userController= require("./usuarios.controller")
+
+
+class CartController {
+    async getProductsInCart(req, res) {
         try {
-            const user = req.user
-            const cart = await cartModel.findOne({ username: req.username })
-            if (!cart) {
-              cart = new Cart({
-                username: user.username,
-                products: [],
-              })
-              cart.save()
-            }
+            let productsInCart = await Cart.getProductsInCart(req.user.username)
+            let valorInicial= 0
+            const total = productsInCart.reduce((sum, product) => sum + product.precio, valorInicial)
+            res.render('cart', { productos: productsInCart, total: total })
           } catch (error) {
-            logger.info('error', error)
-            res.status(404).json({ message: error.message })
+            logger.error(`Error al iniciar carrito`)
           }
     }
 
+    async addProductToCart(req, res) {
+        const product = await Product.getById(req.body.productId)
+        await Cart.addProductToCart(req.user.username, product)
+    }
 
-    save = async(carrito) => {
+    async removeProductFromCart(req, res)  {
         try {
-            carrito.productos = []
-            let cart = new this.collection(carrito).save()
-            return cart
+          await Cart.removeProductFromCart(req.user.username, req.params.id_prod)
+          res.redirect('/carrito');
         } catch (error) {
-            throw new Error(`Error al guardar: ${error}`)
+            logger.error(`Error al eliminar producto: ${error}`)
         }
     }
 
-
-    deleteById = async(id)  =>{
+    async buyCarrito(req, res)  {
         try {
-            const document = this.collection.findById(id);
-            const deleteCart = await document.deleteOne();
-            return deleteCart
-        } catch (error) {
-            throw new Error(`Error al modificar: ${error}`)
-        }
-    } 
-    
-
-    addProductToCart = async(cartId, product) =>{
-        let cart = await this.getById(cartId)
-        if(product.id !== undefined) {
-            try{
-            let productos = cart.productos
-            productos.push(product)
-            const addProduct = await this.collection.findById(cartId).updateOne({productos: productos});
-            return addProduct
-                } catch (error) {
-                    throw new Error(`Error al modificar: ${error}`)
-        }} 
-
-    }
-    removeProductFromCart = async(cartId, productId) =>{
-        let cart = await this.getById(cartId)
-            try{
-            let productos = cart.productos
-            const index = productos.findIndex((prod)=> prod._id == productId)
-            if (index > -1) {
-                productos.splice(index, 1);
+            const usuario = await userController.getAcount({email: req.username})
+            console.log(usuario)
+            await Cart.buyCart(usuario)
+            res.redirect('/productos');
             }
-            const addProduct = await this.collection.findById(cartId).updateOne({productos: productos});
-            return addProduct
-                } catch (error) {
-                    throw new Error(`Error al modificar: ${error}`)
-        }
-    }
-    buyCart = async (user) => {
-        let cart = await this.collection.findOne({username: user.username})
-        try{
-            const orderArray = cart.productos
-            const order = JSON.stringify(orderArray);
-            await sendWhatsApp(order, user)
-            await cart.updateOne({ $set: { productos: [] } })
-        }catch (error) {
-            throw new Error(`${error}`)
-        }
+            catch (error) {
+              logger.error(`${error}`)
+          }
     }
     
 }
 
-module.exports =  ContenedorCarrito
+module.exports =  CartController
