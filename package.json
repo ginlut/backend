@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "test" :"mocha ./axios.test.js",
     "start": "nodemon ./server.js"
   },
   "author": "",
