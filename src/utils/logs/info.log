@@ -1,210 +1,38 @@
-{"level":"warn","message":"Servidor http escuchando en el puerto 8080 - PID 11648"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29704"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 17836"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 5720"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 25828"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 22752"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 25192"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 14680"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 17948"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 7260"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 27296"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 28504"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29292"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 1388"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 7640"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 23020"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 30128"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 18196"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 30656"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 26140"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 23568"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 30148"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 20416"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15384"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 27332"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 22128"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 20148"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 27344"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 13352"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 23544"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 10352"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16780"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 30468"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29928"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 12520"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 1964"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29832"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29820"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 12880"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29208"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16156"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16344"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15172"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 26476"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29072"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 23372"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29488"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 24500"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 26612"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29732"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 25596"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 30592"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 13340"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 28036"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 30268"}
-{"level":"error","message":"No estás autenticado: TypeError: Cannot read properties of undefined (reading 'render')"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15272"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 5136"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 27484"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 11360"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 21656"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15760"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29516"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 4972"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 9464"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 27492"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 30020"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 2944"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 5664"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29280"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 19648"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 26220"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 4060"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 5924"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 21752"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 32016"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 26024"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 27596"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 6096"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 18980"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 29900"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 28528"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 13772"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 32044"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 21608"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 14964"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 8788"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 31180"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 24460"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 28496"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 22536"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 30344"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 680"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 31360"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 21492"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 10956"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 22840"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 25416"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 9148"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15268"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 8844"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 18508"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 27768"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 13856"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 32496"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 30000"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 27212"}
-{"level":"error","message":"Error en servidor Error: listen EADDRINUSE: address already in use :::8080"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15316"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 28044"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 8376"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 28704"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 32372"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 30748"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 7980"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16380"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 9864"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 18360"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 8268"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 5988"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 17672"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16436"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 1844"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16920"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 11080"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 3620"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 2136"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 8820"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 7232"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 10236"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 1824"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 13136"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 14404"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 4360"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 13292"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 5676"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16068"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 2928"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 5756"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 10144"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 2488"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 14880"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"error","message":"Error al iniciar carrito"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 3224"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16580"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 11748"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 5308"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 6200"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 13532"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 2416"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 13612"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 7576"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15700"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 9852"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 14720"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 8628"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 14716"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 5888"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 17580"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 8060"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 14784"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16288"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 9528"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 636"}
-{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16184"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 14092"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 8120"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 1144"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16732"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15876"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 2020"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 9916"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 1424"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 5648"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 18344"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 3380"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 10404"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 4624"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 19204"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 18672"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 18460"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 19152"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 18812"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 19244"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 18472"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 4660"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 17092"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 17724"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 4356"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15528"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 14652"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 2400"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 18784"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 17476"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16592"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15688"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 6452"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15440"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 4468"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16524"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 9424"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 15024"}
+{"level":"info","message":"Servidor http escuchando en el puerto 8080 - PID 16056"}
