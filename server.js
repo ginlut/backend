@@ -76,7 +76,7 @@ app.use('/', routes)
 app.use(
   "/graphql",
   graphqlHTTP({
-    productSchema,
+    schema: productSchema,
     rootValue: {
       getById: productController.getById,
       getAll: productController.getAll,

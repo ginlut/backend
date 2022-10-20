@@ -1,5 +1,5 @@
 const crypto =require ("crypto");
-const Producto =require ("../classes/persona.class.js");
+const Producto =require ("./product.class");
 
 const productsMap = {};
 

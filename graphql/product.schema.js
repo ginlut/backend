@@ -1,6 +1,6 @@
 const { buildSchema } = require("graphql");
 
-const personaSchema = buildSchema(`
+const productSchema = buildSchema(`
     input ProductInput {
         nombre: String,
         foto: String,
@@ -9,6 +9,7 @@ const personaSchema = buildSchema(`
 
     type Producto {
         id: ID!,
+        nombre: String,
         foto: String,
         precio: Int,
     }
@@ -25,4 +26,4 @@ const personaSchema = buildSchema(`
     }
 `);
 
-module.exports = personaSchema;
+module.exports = productSchema;
