@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test" :"mocha ./axios.test.js",
+    "test": "mocha ./axios.test.js",
     "start": "nodemon ./server.js"
   },
   "author": "",
@@ -24,9 +24,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-graphql": "^0.12.0",
     "express-handlebars": "^5.2.0",
     "express-session": "^1.17.3",
     "got": "^12.5.2",
+    "graphql": "^16.6.0",
     "handlebars": "^4.7.7",
     "minimist": "^1.2.6",
     "mongoose": "^6.4.6",

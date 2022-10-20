@@ -21,6 +21,9 @@ const mongoose = require( "mongoose")
 const { fork } = require("child_process");
 const logger = require("./src/utils/logs/logger")
 const path = require("path")
+const { graphqlHTTP } = require("express-graphql");
+const productController = require("./graphql/product.controller");
+const productSchema = require("./graphql/product.schema");
 
 
 mongoose.connect(process.env.MONGO_URL);
@@ -68,6 +71,22 @@ app.use(passport.session());
 app.use(passport.authenticate('session'));
 initPassport(passport);
 app.use('/', routes) 
+
+
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    productSchema,
+    rootValue: {
+      getById: productController.getById,
+      getAll: productController.getAll,
+      createProduct: productController.createProduct,
+      updateProducts: productController.updateProducts,
+      deleteById: productController.deleteById,
+    },
+    graphiql: true,
+  })
+);
 
 if (isCluster && cluster.isPrimary) {
   cpus.map(() => {
